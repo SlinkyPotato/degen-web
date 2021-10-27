@@ -7,7 +7,7 @@ const Verification: NextPage = () => {
 				<h1>DEGEN Verification</h1>
 
 				<p>
-					Welcome to the verificadtion page for degen. Twitter and discord authorization is needed to distribute POAPS to attendees.
+					Welcome to the verification page for DEGEN. Twitter and discord authorization is needed to distribute POAPS to attendees.
 				</p>
 			</main>
 		</div>
