@@ -1,0 +1,31 @@
+{
+  "name": "degen-web",
+  "version": "1.0.0-beta",
+  "private": true,
+  "description": "This is the front end for DEGEN.",
+  "main": "src/pages/index.tsx",
+  "repository": "git@github.com:BanklessDAO/discord-bots-web.git",
+  "author": "Brian <patinobrian@gmail.com>",
+  "license": "BUSL-1.1",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint src --ext .ts --ext .tsx",
+    "format": "next lint --fix"
+  },
+  "dependencies": {
+    "next": "12.0.1",
+    "react": "17.0.2",
+    "react-dom": "17.0.2"
+  },
+  "devDependencies": {
+    "@types/node": "16.11.6",
+    "@types/react": "17.0.33",
+    "@typescript-eslint/eslint-plugin": "^5.2.0",
+    "@typescript-eslint/parser": "^5.2.0",
+    "eslint": "7.32.0",
+    "eslint-config-next": "12.0.1",
+    "typescript": "4.4.4"
+  }
+}
