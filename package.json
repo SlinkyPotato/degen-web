@@ -2,6 +2,11 @@
   "name": "degen-web",
   "version": "1.0.0-beta",
   "private": true,
+  "description": "This is the front end for DEGEN.",
+  "main": "src/pages/index.tsx",
+  "repository": "git@github.com:BanklessDAO/discord-bots-web.git",
+  "author": "Brian <patinobrian@gmail.com>",
+  "license": "BUSL-1.1",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
