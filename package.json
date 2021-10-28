@@ -18,14 +18,15 @@
     "@next-auth/mongodb-adapter": "^0.0.2-next.285",
     "mongodb": "^4.1.3",
     "next": "12.0.1",
-    "next-auth": "4.0.0-beta.4",
+    "next-auth": "^4.0.0-beta.5",
     "react": "17.0.2",
     "react-dom": "17.0.2"
   },
   "devDependencies": {
     "@types/mongodb": "^4.0.7",
-    "@types/node": "16.11.6",
-    "@types/react": "17.0.33",
+    "@types/node": "^16.11.6",
+    "@types/react": "^17.0.33",
+    "@types/react-dom": "^17.0.10",
     "@typescript-eslint/eslint-plugin": "^5.2.0",
     "@typescript-eslint/parser": "^5.2.0",
     "eslint": "7.32.0",
@@ -34,6 +35,6 @@
   },
   "engines": {
     "yarn": "1.x",
-    "node": ">=16.10.0"
+    "node": ">=16.13.0"
   }
 }

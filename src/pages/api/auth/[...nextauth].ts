@@ -13,6 +13,15 @@ export default NextAuth({
 		TwitterProvider({
 			clientId: apiKeys.twitterAppToken,
 			clientSecret: apiKeys.twitterSecretToken,
+			profileUrl: 'https://api.twitter.com/1.1/account/verify_credentials.json?include_email=false',
+			profile: (profile) => {
+				return {
+					id: profile.id_str,
+					name: profile.name,
+					email: '',
+					image: '',
+				};
+			},
 		}),
 
 	],
