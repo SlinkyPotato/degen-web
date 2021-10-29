@@ -11,8 +11,8 @@ export default NextAuth({
 	// https://next-auth.js.org/configuration/providers
 	providers: [
 		TwitterProvider({
-			clientId: apiKeys.twitterAppToken,
-			clientSecret: apiKeys.twitterSecretToken,
+			clientId: apiKeys.twitterClientID,
+			clientSecret: apiKeys.twitterClientSecret,
 			profileUrl: 'https://api.twitter.com/1.1/account/verify_credentials.json?include_email=false',
 			profile: (profile) => {
 				return {

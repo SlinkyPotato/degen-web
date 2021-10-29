@@ -6,7 +6,7 @@ const MongoDBUtils = async (database: string): Promise<MongoClient> => {
 		w: 'majority',
 		retryWrites: true,
 	};
-	return await MongoClient.connect(constants.MONGODB_URI_PARTIAL + database, options);
+	return MongoClient.connect(constants.MONGODB_URI_PARTIAL + database, options);
 };
 
 export default MongoDBUtils;
