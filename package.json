@@ -36,6 +36,6 @@
   "engineStrict": true,
   "engines": {
     "yarn": "1.x",
-    "node": ">=16.13.x"
+    "node": ">=14.x"
   }
 }
