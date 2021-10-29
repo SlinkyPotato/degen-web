@@ -94,7 +94,7 @@ export default NextAuth({
 	// You can set the theme to 'light', 'dark' or use 'auto' to default to the
 	// whatever prefers-color-scheme is set to in the browser. Default is 'auto'
 	theme: {
-		colorScheme: 'dark',
+		colorScheme: 'light',
 	},
 
 	// Enable debug messages in the console if you are having problems
