@@ -12,7 +12,7 @@ const SignInComponent = () => {
 	}
 	return (
 		<>
-			Not signed in <br />
+			Sync Accounts <br />
 			<button onClick={() => signIn()}>Sign in</button>
 		</>
 	);

@@ -1,5 +1,6 @@
 import NextAuth from 'next-auth';
 import TwitterProvider from 'next-auth/providers/twitter';
+import DiscordProvider from 'next-auth/providers/discord';
 import apiKeys from '../../../constants/apiKeys';
 import { MongoDBAdapter } from '@next-auth/mongodb-adapter';
 import MongoDBUtils from '../../../utils/MongoDBUtils';
@@ -11,7 +12,7 @@ export default NextAuth({
 	// https://next-auth.js.org/configuration/providers
 	providers: [
 		TwitterProvider({
-			clientId: apiKeys.twitterClientID,
+			clientId: apiKeys.twitterClientId,
 			clientSecret: apiKeys.twitterClientSecret,
 			profileUrl: 'https://api.twitter.com/1.1/account/verify_credentials.json?include_email=false',
 			profile: (profile) => {
@@ -24,6 +25,10 @@ export default NextAuth({
 			},
 		}),
 
+		DiscordProvider({
+			clientId: apiKeys.discordClientId,
+			clientSecret: apiKeys.discordClientSecret,
+		}),
 	],
 
 	adapter: MongoDBAdapter({
