@@ -3,8 +3,10 @@ import constants from '../constants/constants';
 
 const MongoDBUtils = async (database: string): Promise<MongoClient> => {
 	const options: MongoClientOptions = {
-		w: 'majority',
-		retryWrites: true,
+		writeConcern: {
+			w: 'majority',
+		},
+		useUnifiedTopology: true,
 	};
 	return MongoClient.connect(constants.MONGODB_URI_PARTIAL + database, options);
 };

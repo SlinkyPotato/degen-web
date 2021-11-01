@@ -35,12 +35,14 @@ export default NextAuth({
 		jwt: false,
 
 		// Seconds - How long until an idle session expires and is no longer valid.
-		// maxAge: 30 * 24 * 60 * 60, // 30 days
+		// 30 days
+		maxAge: 30 * 24 * 60 * 60,
 
 		// Seconds - Throttle how frequently to write to database to extend a session.
 		// Use it to limit write operations. Set to 0 to always update the database.
 		// Note: This option is ignored if using JSON Web Tokens
-		// updateAge: 24 * 60 * 60, // 24 hours
+		// 24 hours
+		updateAge: 24 * 60 * 60,
 	},
 
 	// JSON Web tokens are only used for sessions if the `jwt: true` session
@@ -74,33 +76,30 @@ export default NextAuth({
 	// when an action is performed.
 	// https://next-auth.js.org/configuration/callbacks
 	callbacks: {
-		async signIn(user) {
-			// console.log('signin flow');
-			// console.log(user);
-			// console.log('-');
-			return true;
-		},
+	// 	async signIn(user) {
+	// 		// console.log('signin flow');
+	// 		// console.log(user);
+	// 		// console.log('-');
+	// 		return true;
+	// 	},
 		async redirect(url, baseUrl) {
-			// console.log('redirect flow');
-			// console.log(params);
-			// console.log('-');
-			return baseUrl;
+			return baseUrl + '/verification?type=twitter';
 		},
-		async session(session, user) {
-			// console.log(session);
-			// console.log(user);
-			return session;
-		},
-		// async jwt(token, user, account, profile, isNewUser) { return token }
+	// 	async session(session, user) {
+	// 		// console.log(session);
+	// 		// console.log(user);
+	// 		return session;
+	// 	},
+	// 	// async jwt(token, user, account, profile, isNewUser) { return token }
 	},
 
 	// Events are useful for logging
 	// https://next-auth.js.org/configuration/events
 	events: {
-		linkAccount: async ({ user, providerAccount }) => {
-			console.log(user);
-			console.log(providerAccount);
-		},
+	// 	linkAccount: async ({ user, providerAccount }) => {
+	// 		// console.log(user);
+	// 		// console.log(providerAccount);
+	// 	},
 	},
 
 	// You can set the theme to 'light', 'dark' or use 'auto' to default to the
@@ -108,5 +107,5 @@ export default NextAuth({
 	theme: 'light',
 
 	// Enable debug messages in the console if you are having problems
-	debug: true,
+	debug: false,
 });

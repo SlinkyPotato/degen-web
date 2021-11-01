@@ -2,10 +2,15 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 import styles from '../styles/Home.module.css';
-import SignInComponent from '../components/SignInComponent';
+import { useSession } from 'next-auth/client';
+import AuthUtils from '../utils/AuthUtils';
 
 const Home: NextPage = () => {
-    return (
+  const [session, isLoading] = useSession();
+
+  AuthUtils.validateLoginSession(session, isLoading);
+
+  return (
     <div className={styles.container}>
       <Head>
         <title>DEGEN</title>
@@ -17,9 +22,6 @@ const Home: NextPage = () => {
         <h1 className={styles.title}>
           Welcome to DEGEN!
         </h1>
-
-        <SignInComponent/>
-
       </main>
 
       <footer className={styles.footer}>
