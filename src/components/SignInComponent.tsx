@@ -1,4 +1,4 @@
-import { signIn, signOut, useSession } from 'next-auth/react';
+import { signIn, signOut, useSession } from 'next-auth/client';
 
 const SignInComponent = () => {
 	const { data: session }: any = useSession();

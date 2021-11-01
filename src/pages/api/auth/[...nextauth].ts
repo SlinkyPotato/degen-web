@@ -1,39 +1,27 @@
 import NextAuth from 'next-auth';
-import TwitterProvider from 'next-auth/providers/twitter';
-import DiscordProvider from 'next-auth/providers/discord';
 import apiKeys from '../../../constants/apiKeys';
-import { MongoDBAdapter } from '@next-auth/mongodb-adapter';
-import MongoDBUtils from '../../../utils/MongoDBUtils';
 import constants from '../../../constants/constants';
+import Providers from 'next-auth/providers';
 
 // For more information on each option (and a full list of options) go to
 // https://next-auth.js.org/configuration/options
 export default NextAuth({
 	// https://next-auth.js.org/configuration/providers
 	providers: [
-		TwitterProvider({
-			clientId: apiKeys.twitterClientId,
-			clientSecret: apiKeys.twitterClientSecret,
-			profileUrl: 'https://api.twitter.com/1.1/account/verify_credentials.json?include_email=false',
-			profile: (profile) => {
-				return {
-					id: profile.id_str,
-					name: profile.name,
-					email: '',
-					image: '',
-				};
-			},
-		}),
+		// Providers.Twitter({
+		// 	clientId: apiKeys.twitterClientId,
+		// 	clientSecret: apiKeys.twitterClientSecret,
+		// 	profileUrl: 'https://api.twitter.com/1.1/account/verify_credentials.json?include_email=false',
+		// }),
 
-		DiscordProvider({
+		Providers.Discord({
 			clientId: apiKeys.discordClientId,
 			clientSecret: apiKeys.discordClientSecret,
+			scope: 'identify',
 		}),
 	],
 
-	adapter: MongoDBAdapter({
-		db: (await MongoDBUtils(constants.DB_NAME_DEGEN)).db(),
-	}),
+	database: constants.MONGODB_URI_PARTIAL + constants.DB_NAME_DEGEN + constants.MONGODB_OPTIONS,
 
 	// The secret should be set to a reasonably long random string.
 	// It is used to sign cookies and to sign and encrypt JSON Web Tokens, unless
@@ -86,22 +74,39 @@ export default NextAuth({
 	// when an action is performed.
 	// https://next-auth.js.org/configuration/callbacks
 	callbacks: {
-		// async signIn(user, account, profile) { return true },
-		// async redirect(url, baseUrl) { return baseUrl },
-		// async session(session, user) { return session },
+		async signIn(user) {
+			// console.log('signin flow');
+			// console.log(user);
+			// console.log('-');
+			return true;
+		},
+		async redirect(url, baseUrl) {
+			// console.log('redirect flow');
+			// console.log(params);
+			// console.log('-');
+			return baseUrl;
+		},
+		async session(session, user) {
+			// console.log(session);
+			// console.log(user);
+			return session;
+		},
 		// async jwt(token, user, account, profile, isNewUser) { return token }
 	},
 
 	// Events are useful for logging
 	// https://next-auth.js.org/configuration/events
-	events: {},
+	events: {
+		linkAccount: async ({ user, providerAccount }) => {
+			console.log(user);
+			console.log(providerAccount);
+		},
+	},
 
 	// You can set the theme to 'light', 'dark' or use 'auto' to default to the
 	// whatever prefers-color-scheme is set to in the browser. Default is 'auto'
-	theme: {
-		colorScheme: 'light',
-	},
+	theme: 'light',
 
 	// Enable debug messages in the console if you are having problems
-	debug: false,
+	debug: true,
 });
