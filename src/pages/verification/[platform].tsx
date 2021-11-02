@@ -1,26 +1,13 @@
 import {
-	GetStaticPaths,
-	GetStaticPropsContext,
-	GetStaticPropsResult,
+	GetServerSidePropsContext,
 	NextPage,
 } from 'next';
 import platformTypes from '../../constants/platformTypes';
 import apiKeys from '../../constants/apiKeys';
-import { TwitterApi } from 'twitter-api-v2';
+import { TwitterApi, UserV1 } from 'twitter-api-v2';
+import { LoginResult } from 'twitter-api-v2/dist/types';
 
-type VerificationProps = {
-	authLink: string,
-}
-
-const Platform: NextPage<any> = ({ authLink }: VerificationProps) => {
-
-	if (authLink == null || authLink == '') {
-		return (
-			<p>Verification type not found.</p>
-		);
-	}
-
-	// window.open(authLink, '_self');
+const Platform: NextPage<any> = () => {
 	return (
 		<>
 			Twitter account linked. Twitter spaces is now activated!
@@ -28,30 +15,59 @@ const Platform: NextPage<any> = ({ authLink }: VerificationProps) => {
 	);
 };
 
-export const getStaticPaths: GetStaticPaths = async () => {
-	return {
-		paths: [
-			{ params: { platform: platformTypes.TWITTER } },
-		],
-		fallback: false,
-	};
-};
+// export const getStaticPaths: GetStaticPaths = async () => {
+// 	return {
+// 		paths: [
+// 			{ params: { platform: platformTypes.TWITTER } },
+// 		],
+// 		fallback: false,
+// 	};
+// };
 
-export const getStaticProps = async (context: GetStaticPropsContext): Promise<GetStaticPropsResult<VerificationProps>> => {
+export const getServerSideProps = async (context: GetServerSidePropsContext) => {
 	const platform = context.params?.platform;
-	let authLink = '';
+
 	if (platform === platformTypes.TWITTER) {
+
+		const oAuthToken = context.query.oauth_token as string;
+		const oauthVerifier = context.query?.oauth_verifier as string;
+
+		if (oAuthToken && oauthVerifier) {
+
+			const client = new TwitterApi({
+				appKey: apiKeys.twitterClientId,
+				appSecret: apiKeys.twitterClientSecret,
+				accessToken: oAuthToken,
+				accessSecret: apiKeys.twitterSecretToken,
+			});
+
+			const loginResult: LoginResult = await client.login(oauthVerifier);
+			const loggedUser: UserV1 = await loginResult.client.v1.verifyCredentials();
+			console.log(loggedUser);
+			return {
+				redirect: {
+					destination: '/',
+					permanent: true,
+				},
+			};
+		}
+
 		const client = new TwitterApi({
 			appKey: apiKeys.twitterClientId,
 			appSecret: apiKeys.twitterClientSecret,
 		});
-		authLink = (await client.generateAuthLink(apiKeys.twitterCallBackUrl)).url;
+
+		const authLink = (await client.generateAuthLink(apiKeys.twitterCallBackUrl)).url;
+		return {
+			redirect: {
+				destination: authLink,
+				permanent: false,
+			},
+		};
 	}
 
 	return {
-		props: {
-			authLink: authLink,
-		},
+		props: {},
 	};
 };
 

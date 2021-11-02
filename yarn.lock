@@ -988,6 +988,11 @@ convert-source-map@1.7.0:
   dependencies:
     safe-buffer "~5.1.1"
 
+cookie@^0.4.1:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/cookie/-/cookie-0.4.1.tgz#afd713fe26ebd21ba95ceb61f9a8116e50a537d1"
+  integrity sha512-ZwrFkGJxUR3EIoXtO+yVE69Eb7KlixbaeAWfBQB9vVsNn/o+Yw69gBWSSDK825hQNdN+wF8zELf3dFNl/kxkUA==
+
 core-js-pure@^3.16.0:
   version "3.19.0"
   resolved "https://registry.npmjs.org/core-js-pure/-/core-js-pure-3.19.0.tgz"
@@ -2385,7 +2390,7 @@ mz@^2.4.0:
     object-assign "^4.0.1"
     thenify-all "^1.0.0"
 
-nanoid@^3.1.23:
+nanoid@^3.1.23, nanoid@^3.1.25:
   version "3.1.30"
   resolved "https://registry.npmjs.org/nanoid/-/nanoid-3.1.30.tgz"
   integrity sha512-zJpuPDwOv8D2zq2WRoMe1HsfZthVewpel9CAvTfc/2mBD1uUT/agc5f7GHGWXlYkFvi1mVxe4IjvP2HNrop7nQ==
@@ -2417,6 +2422,14 @@ next-auth@^3.29.0:
     preact "^10.4.1"
     preact-render-to-string "^5.1.14"
     querystring "^0.2.0"
+
+next-session@^4.0.2:
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/next-session/-/next-session-4.0.2.tgz#3dfd248cfb5a7542fe4b28b188fdf90339f4bbce"
+  integrity sha512-cyDLNiryaQBMH/l8zv/PLN4CvFuwQpdw1VBLfT1qvDzf9l332XBo6gLzyjCp+3PJyskLTzAi22jxbDDEnLa5Jg==
+  dependencies:
+    cookie "^0.4.1"
+    nanoid "^3.1.25"
 
 next@12.0.1:
   version "12.0.1"
