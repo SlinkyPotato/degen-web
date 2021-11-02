@@ -1,13 +1,13 @@
 const apiKeys = Object.freeze({
-	twitterClientId: process.env.TWITTER_API_TOKEN,
-	twitterClientSecret: process.env.TWITTER_API_SECRET,
-	twitterBearerToken: process.env.TWITTER_BEARER_TOKEN,
-	twitterAccessToken: process.env.TWITTER_ACCESS_TOKEN,
-	twitterSecretToken: process.env.TWITTER_ACCESS_TOKEN_SECRET,
-	twitterAuthUrl: process.env.TWITTER_VERIFICATION_URL,
+	twitterClientId: process.env.TWITTER_API_TOKEN as string,
+	twitterClientSecret: process.env.TWITTER_API_SECRET as string,
+	twitterBearerToken: process.env.TWITTER_BEARER_TOKEN as string,
+	twitterAccessToken: process.env.TWITTER_ACCESS_TOKENas as string,
+	twitterSecretToken: process.env.TWITTER_ACCESS_TOKEN_SECRET as string,
+	twitterCallBackUrl: process.env.TWITTER_CALLBACK_URL as string,
 
-	discordClientId: process.env.DEGEN_CLIENT_ID,
-	discordClientSecret: process.env.DEGEN_CLIENT_SECRET,
+	discordClientId: process.env.DEGEN_CLIENT_ID as string,
+	discordClientSecret: process.env.DEGEN_CLIENT_SECRET as string,
 });
 
 export default apiKeys;

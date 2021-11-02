@@ -1,7 +1,10 @@
 import { Session } from 'next-auth';
 
 const AuthUtils = {
-	validateLoginSession: (session: Session | null, isLoading: boolean) => {
+	validateLoginSession: (session: Session | null, isLoading?: boolean) => {
+		console.log('validating login session');
+		isLoading = (isLoading != null) ? isLoading : false;
+
 		if (isLoading) {
 			return null;
 		}
@@ -9,6 +12,7 @@ const AuthUtils = {
 		if (!isLoading && !session) {
 			window.open('/api/auth/signin', '_self');
 		}
+		console.log('session validated');
 	},
 };
 
