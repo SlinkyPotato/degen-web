@@ -85,9 +85,9 @@ export default NextAuth({
 	// 		// console.log('-');
 	// 		return true;
 	// 	},
-	// 	async redirect(url: string, baseUrl: string) {
-	// 		return baseUrl + '/verification/twitter';
-	// 	},
+		async redirect(url: string, baseUrl: string) {
+			return baseUrl + '/verification/twitter';
+		},
 		async session(session: Session, user: User) {
 			session.user.id = user.id;
 
