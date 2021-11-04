@@ -14,7 +14,7 @@ import { getSession } from 'next-auth/client';
 const Platform: NextPage<any> = () => {
 	return (
 		<>
-			Twitter account linked. Twitter spaces is activated.
+			Twitter account linked. You are now authorized to host POAP events for twitter spaces!
 		</>
 	);
 };
