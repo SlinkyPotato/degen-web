@@ -1,8 +1,10 @@
-import NextAuth from 'next-auth';
+import NextAuth, { Session, User } from 'next-auth';
 import apiKeys from '../../../constants/apiKeys';
 import constants from '../../../constants/constants';
 import Providers from 'next-auth/providers';
-
+import { Collection, Db, ObjectId } from 'mongodb';
+import MongoDBUtils from '../../../utils/MongoDBUtils';
+import platformTypes from '../../../constants/platformTypes';
 // For more information on each option (and a full list of options) go to
 // https://next-auth.js.org/configuration/options
 export default NextAuth({
@@ -18,10 +20,11 @@ export default NextAuth({
 			clientId: apiKeys.discordClientId,
 			clientSecret: apiKeys.discordClientSecret,
 			scope: 'identify',
+			profileUrl: 'https://discord.com/api/users/@me',
 		}),
 	],
 
-	database: constants.MONGODB_URI_PARTIAL + constants.DB_NAME_DEGEN + constants.MONGODB_OPTIONS,
+	database: constants.MONGODB_URI_PARTIAL + constants.DB_NAME_NEXTAUTH + constants.MONGODB_OPTIONS,
 
 	// The secret should be set to a reasonably long random string.
 	// It is used to sign cookies and to sign and encrypt JSON Web Tokens, unless
@@ -82,15 +85,26 @@ export default NextAuth({
 	// 		// console.log('-');
 	// 		return true;
 	// 	},
-		async redirect(url, baseUrl) {
-			return baseUrl + '/verification?type=twitter';
-		},
-	// 	async session(session, user) {
-	// 		// console.log(session);
-	// 		// console.log(user);
-	// 		return session;
+	// 	async redirect(url: string, baseUrl: string) {
+	// 		return baseUrl + '/verification/twitter';
 	// 	},
-	// 	// async jwt(token, user, account, profile, isNewUser) { return token }
+		async session(session: Session, user: User) {
+			session.user.id = user.id;
+
+			const db: Db = await MongoDBUtils.connectDb(constants.DB_NAME_NEXTAUTH);
+			const sessionCollection: Collection = db.collection(constants.DB_COLLECTION_NEXT_AUTH_SESSIONS);
+			// Retrieve twitter account using discordId
+			const account = await sessionCollection.findOne({
+				userId: ObjectId(session.user.id),
+			});
+			session.twitterAccessToken = account.twitterAccessToken;
+			return session;
+		},
+
+		// async jwt(token: JWT, user: User | undefined, account: Account | undefined, profile: Profile | undefined, isNewUser: boolean | undefined) {
+		// 	// console.log(profile);
+		// 	return token;
+		// },
 	},
 
 	// Events are useful for logging
