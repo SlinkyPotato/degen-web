@@ -98,6 +98,7 @@ export default NextAuth({
 				userId: ObjectId(session.user.id),
 			});
 			session.twitterAccessToken = account.twitterAccessToken;
+			session.twitterAccessSecret = account.twitterAccessSecret;
 			return session;
 		},
 

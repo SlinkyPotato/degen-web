@@ -18,5 +18,6 @@ declare module 'next-auth' {
 		expires?: string,
 		accessToken?: string,
 		twitterAccessToken?: string,
+		twitterAccessSecret?: string,
 	}
 }

@@ -89,6 +89,7 @@ export const getServerSideProps = async (context: GetServerSidePropsContext): Pr
 			providerId: platformTypes.TWITTER,
 			providerAccountId: loginResult.userId,
 			accessToken: loginResult.accessToken,
+			accessSecret: loginResult.accessSecret,
 		};
 
 		let didFail;
@@ -121,6 +122,7 @@ export const getServerSideProps = async (context: GetServerSidePropsContext): Pr
 		}, {
 			$set: {
 				twitterAccessToken: loginResult.accessToken,
+				twitterAccessSecret: loginResult.accessSecret,
 			},
 		});
 
