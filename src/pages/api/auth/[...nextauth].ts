@@ -4,7 +4,7 @@ import constants from '../../../constants/constants';
 import Providers from 'next-auth/providers';
 import { Collection, Db, ObjectId } from 'mongodb';
 import MongoDBUtils from '../../../utils/MongoDBUtils';
-import platformTypes from '../../../constants/platformTypes';
+
 // For more information on each option (and a full list of options) go to
 // https://next-auth.js.org/configuration/options
 export default NextAuth({
