@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es2021",
+    "target": "es5",
     "lib": [
       "dom",
       "dom.iterable",
@@ -17,14 +17,19 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "incremental": true
+    "incremental": true,
+    "allowSyntheticDefaultImports": true,
+    "typeRoots": [
+      "src/types",
+      "node_modules/@types"
+    ]
   },
   "include": [
-    "next-env.d.ts",
+    "types/**/*.ts",
     "**/*.ts",
     "**/*.tsx"
   ],
   "exclude": [
     "node_modules"
-  ]
+  ],
 }
