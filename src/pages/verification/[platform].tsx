@@ -20,7 +20,7 @@ const Platform: NextPage<any> = () => {
 };
 
 export const getServerSideProps = async (context: GetServerSidePropsContext): Promise<GetServerSidePropsResult<any>> => {
-	const session = await getSession(context.res);
+	const session = await getSession(context);
 	// Verify discord session is active
 	if (!session) {
 		return {
