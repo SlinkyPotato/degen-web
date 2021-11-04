@@ -7,7 +7,7 @@ import apiKeys from '../../constants/apiKeys';
 import { TwitterApi } from 'twitter-api-v2';
 import { LoginResult } from 'twitter-api-v2/dist/types';
 import MongoDBUtils from '../../utils/MongoDBUtils';
-import { Collection, Db, FindAndModifyWriteOpResultObject, ObjectId } from 'mongodb';
+import { Collection, Db, FindAndModifyWriteOpResultObject, InsertOneWriteOpResult, ObjectId } from 'mongodb';
 import constants from '../../constants/constants';
 import { getSession } from 'next-auth/client';
 
@@ -26,7 +26,7 @@ export const getServerSideProps = async (context: GetServerSidePropsContext): Pr
 		return {
 			redirect: {
 				destination: '/api/auth/signin',
-				permanent: true,
+				permanent: false,
 			},
 		};
 	}
@@ -83,18 +83,29 @@ export const getServerSideProps = async (context: GetServerSidePropsContext): Pr
 			userId: ObjectId(session.user.id),
 		});
 
-		// insert twitter account into db
-		const result: FindAndModifyWriteOpResultObject<any> = await accountsCollection.findOneAndReplace(account,  {
+		const newAccount = {
 			userId: ObjectId(session.user.id),
 			providerType: 'oauth',
 			providerId: platformTypes.TWITTER,
 			providerAccountId: loginResult.userId,
 			accessToken: loginResult.accessToken,
-		}, {
-			upsert: true,
-		});
+		};
 
-		if (result.ok != 1) {
+		let didFail;
+		if (account != null) {
+			// insert twitter account into db
+			const result: FindAndModifyWriteOpResultObject<any> = await accountsCollection.findOneAndReplace(
+				account,
+				newAccount, {
+				upsert: true,
+			});
+			didFail = (result.ok != 1);
+		} else {
+			const result: InsertOneWriteOpResult<any> = await accountsCollection.insertOne(newAccount);
+			didFail = (result.insertedCount != 1 || result.result.ok != 1);
+		}
+
+		if (didFail) {
 			// failed to insert into db
 			return {
 				redirect: {
