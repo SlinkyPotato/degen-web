@@ -79,12 +79,12 @@ export default NextAuth({
 	// when an action is performed.
 	// https://next-auth.js.org/configuration/callbacks
 	callbacks: {
-		async signIn(user, ) {
-			// console.log('signin flow');
-			// console.log(user);
-			// console.log('-');
-			return true;
-		},
+		// async signIn(user, ) {
+		// 	// console.log('signin flow');
+		// 	// console.log(user);
+		// 	// console.log('-');
+		// 	return true;
+		// },
 	// 	async redirect(url: string, baseUrl: string) {
 	// 		return baseUrl + '/verification/twitter';
 	// 	},
