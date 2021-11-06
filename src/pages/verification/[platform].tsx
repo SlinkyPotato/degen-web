@@ -9,9 +9,21 @@ import { LoginResult } from 'twitter-api-v2/dist/types';
 import MongoDBUtils from '../../utils/MongoDBUtils';
 import { Collection, Db, FindAndModifyWriteOpResultObject, InsertOneWriteOpResult, ObjectId } from 'mongodb';
 import constants from '../../constants/constants';
-import { getSession } from 'next-auth/client';
+import { getSession, signIn, useSession } from 'next-auth/client';
 
 const Platform: NextPage<any> = () => {
+	const [session, loading] = useSession();
+	if (loading) {
+		return (
+			<></>
+		);
+	}
+	if (!session) {
+		signIn('discord').then();
+		return (
+			<></>
+		);
+	}
 	return (
 		<>
 			Twitter account linked. You are now authorized to host POAP events for twitter spaces!
@@ -24,10 +36,7 @@ export const getServerSideProps = async (context: GetServerSidePropsContext): Pr
 	// Verify discord session is active
 	if (!session) {
 		return {
-			redirect: {
-				destination: '/api/auth/signin',
-				permanent: false,
-			},
+			props: {},
 		};
 	}
 
