@@ -1,10 +1,24 @@
 import { GetServerSidePropsContext, GetServerSidePropsResult, NextPage } from 'next';
-import { signIn } from 'next-auth/client';
+import { signIn, useSession } from 'next-auth/client';
 
 const Code: NextPage<any> = () => {
+    const [session, loading] = useSession();
+    if (loading) {
+        return (
+            <>loading...</>
+        );
+    }
+    if (!session || !session.isTwitterLinked) {
+        return (
+            <>
+                <button onClick={() => signIn('twitter', {}).then()}>Sign in to Twitter</button>
+            </>
+        );
+    }
     return (
         <>
-            <button onClick={() => signIn('twitter')}>Sign in to Twitter</button>
+            <p>isTwitterLinked: {session.isTwitterLinked ? 'true' : 'false'}</p>
+            <p>isDiscordLinked: {session?.isDiscordLinked ? 'true' : 'false'}</p>
         </>
     );
 };

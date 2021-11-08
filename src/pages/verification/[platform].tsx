@@ -15,10 +15,10 @@ const Platform: NextPage<any> = () => {
 	const [session, loading] = useSession();
 	if (loading) {
 		return (
-			<></>
+			<>loading...</>
 		);
 	}
-	if (!session) {
+	if (!session || !session.isDiscordLinked) {
 		signIn('discord').then();
 		return (
 			<></>
@@ -33,16 +33,25 @@ const Platform: NextPage<any> = () => {
 
 export const getServerSideProps = async (context: GetServerSidePropsContext): Promise<GetServerSidePropsResult<any>> => {
 	const session = await getSession(context);
+	const platform = context.params?.platform;
+	
 	// Verify discord session is active
-	if (!session) {
+	if (!session || platform !== platformTypes.TWITTER) {
 		return {
 			props: {},
 		};
 	}
 
-	const platform = context.params?.platform;
+	const db: Db = await MongoDBUtils.connectDb(constants.DB_NAME_NEXTAUTH);
+	const accountsCollection: Collection = db.collection(constants.DB_COLLECTION_NEXT_AUTH_ACCOUNTS);
 
-	if (platform === platformTypes.TWITTER && (session.twitterAccessToken == null || session.twitterAccessToken == '')) {
+	// Retrieve twitter account using discordId
+	const account = await accountsCollection.findOne({
+		providerId: platformTypes.TWITTER,
+		userId: ObjectId(session.user.id),
+	});
+
+	if (account == null || account.accessSecret == null || account.accessSecret == '') {
 
 		const oAuthToken = context.query.oauth_token as string;
 		const oauthVerifier = context.query?.oauth_verifier as string;
@@ -82,12 +91,9 @@ export const getServerSideProps = async (context: GetServerSidePropsContext): Pr
 				},
 			};
 		}
-
-		const db: Db = await MongoDBUtils.connectDb(constants.DB_NAME_NEXTAUTH);
-		const accountsCollection: Collection = db.collection(constants.DB_COLLECTION_NEXT_AUTH_ACCOUNTS);
-
+		
 		// Retrieve twitter account using discordId
-		const account = await accountsCollection.findOne({
+		const twitterAccount = await accountsCollection.findOne({
 			providerId: platformTypes.TWITTER,
 			userId: ObjectId(session.user.id),
 		});
@@ -102,10 +108,10 @@ export const getServerSideProps = async (context: GetServerSidePropsContext): Pr
 		};
 
 		let didFail;
-		if (account != null) {
+		if (twitterAccount != null) {
 			// insert twitter account into db
 			const result: FindAndModifyWriteOpResultObject<any> = await accountsCollection.findOneAndReplace(
-				account,
+				twitterAccount,
 				newAccount, {
 				upsert: true,
 			});
@@ -125,16 +131,6 @@ export const getServerSideProps = async (context: GetServerSidePropsContext): Pr
 			};
 		}
 
-		const sessionCollection: Collection = await db.collection(constants.DB_COLLECTION_NEXT_AUTH_SESSIONS);
-		await sessionCollection.updateOne({
-			userId: ObjectId(session.user.id),
-		}, {
-			$set: {
-				twitterAccessToken: loginResult.accessToken,
-				twitterAccessSecret: loginResult.accessSecret,
-			},
-		});
-
 		// inserted successfully
 		return {
 			redirect: {
@@ -143,7 +139,6 @@ export const getServerSideProps = async (context: GetServerSidePropsContext): Pr
 			},
 		};
 	}
-
 	return {
 		props: {},
 	};
