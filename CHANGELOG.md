@@ -7,3 +7,4 @@
    - integrate twitter auth
    - link accounts
 3. Adjust to client side verification
+4. Add twitter claim page

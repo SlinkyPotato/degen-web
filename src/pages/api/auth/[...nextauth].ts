@@ -10,11 +10,11 @@ import MongoDBUtils from '../../../utils/MongoDBUtils';
 export default NextAuth({
 	// https://next-auth.js.org/configuration/providers
 	providers: [
-		// Providers.Twitter({
-		// 	clientId: apiKeys.twitterClientId,
-		// 	clientSecret: apiKeys.twitterClientSecret,
-		// 	profileUrl: 'https://api.twitter.com/1.1/account/verify_credentials.json?include_email=false',
-		// }),
+		Providers.Twitter({
+			clientId: apiKeys.twitterClientId,
+			clientSecret: apiKeys.twitterClientSecret,
+			profileUrl: 'https://api.twitter.com/1.1/account/verify_credentials.json?include_email=false',
+		}),
 
 		Providers.Discord({
 			clientId: apiKeys.discordClientId,
