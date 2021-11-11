@@ -3,13 +3,12 @@ import {
 	NextPage,
 } from 'next';
 import platformTypes from '../../constants/platformTypes';
-import apiKeys from '../../constants/apiKeys';
-import { TwitterApi } from 'twitter-api-v2';
 import { LoginResult } from 'twitter-api-v2/dist/types';
 import MongoDBUtils from '../../utils/MongoDBUtils';
-import { Collection, Db, FindAndModifyWriteOpResultObject, InsertOneWriteOpResult, ObjectId } from 'mongodb';
+import { Collection, Db, ObjectId } from 'mongodb';
 import constants from '../../constants/constants';
 import { getSession, signIn, useSession } from 'next-auth/client';
+import TwitterAuth from '../../utils/TwitterAuth';
 
 const Platform: NextPage<any> = () => {
 	const [session, loading] = useSession();
@@ -52,95 +51,49 @@ export const getServerSideProps = async (context: GetServerSidePropsContext): Pr
 	});
 
 	if (account == null || account.accessSecret == null || account.accessSecret == '') {
-
+		
 		const oAuthToken = context.query.oauth_token as string;
-		const oauthVerifier = context.query?.oauth_verifier as string;
-
-		// Check for first step in twitter oauth flow
-		if (!oAuthToken || !oauthVerifier) {
-			const client = new TwitterApi({
-				appKey: apiKeys.twitterClientId,
-				appSecret: apiKeys.twitterClientSecret,
-			});
-
-			const authLink = (await client.generateAuthLink(apiKeys.twitterCallBackUrl)).url;
+		const oauthVerifier = context.query.oauth_verifier as string;
+		
+		if (oAuthToken != null && oauthVerifier == null) {
+			console.log('authorization not given');
+			throw Error('failed to authorize');
+		}
+		
+		if (oAuthToken == null && oauthVerifier == null) {
 			return {
 				redirect: {
-					destination: authLink,
+					destination: (await TwitterAuth.authLink()).url,
 					permanent: false,
 				},
 			};
 		}
 
-		// Verify oauthtoken and oauthVerifier
-		const client = new TwitterApi({
-			appKey: apiKeys.twitterClientId,
-			appSecret: apiKeys.twitterClientSecret,
-			accessToken: oAuthToken,
-			accessSecret: apiKeys.twitterSecretToken,
-		});
-
+		const oAuthTokenSecret: string = await TwitterAuth.getOAuthTokenSecret(oAuthToken);
 		let loginResult: LoginResult;
 		try {
-			loginResult = await client.login(oauthVerifier);
+			loginResult = await TwitterAuth.login(oAuthToken, oAuthTokenSecret, oauthVerifier);
 		} catch (e) {
-			return {
-				redirect: {
-					destination: '/verification/twitter',
-					permanent: true,
-				},
-			};
+			console.log('failed login to twitter');
+			return refreshRedirect();
 		}
 		
-		// Retrieve twitter account using discordId
-		const twitterAccount = await accountsCollection.findOne({
-			providerId: platformTypes.TWITTER,
-			userId: ObjectId(session.user.id),
-		});
-
-		const newAccount = {
-			userId: ObjectId(session.user.id),
-			providerType: 'oauth',
-			providerId: platformTypes.TWITTER,
-			providerAccountId: loginResult.userId,
-			accessToken: loginResult.accessToken,
-			accessSecret: loginResult.accessSecret,
-		};
-
-		let didFail;
-		if (twitterAccount != null) {
-			// insert twitter account into db
-			const result: FindAndModifyWriteOpResultObject<any> = await accountsCollection.findOneAndReplace(
-				twitterAccount,
-				newAccount, {
-				upsert: true,
-			});
-			didFail = (result.ok != 1);
-		} else {
-			const result: InsertOneWriteOpResult<any> = await accountsCollection.insertOne(newAccount);
-			didFail = (result.insertedCount != 1 || result.result.ok != 1);
-		}
-
-		if (didFail) {
-			// failed to insert into db
-			return {
-				redirect: {
-					destination: '/verification/twitter',
-					permanent: true,
-				},
-			};
-		}
-
-		// inserted successfully
-		return {
-			redirect: {
-				destination: '/verification/twitter',
-				permanent: true,
-			},
-		};
+		await TwitterAuth.linkTwitter(session.user.id as string, loginResult).catch();
+		await TwitterAuth.clearCache(oAuthToken);
+		
+		return refreshRedirect();
 	}
 	return {
 		props: {},
+	};
+};
+
+const refreshRedirect = () => {
+	return {
+		redirect: {
+			destination: '/verification/twitter',
+			permanent: true,
+		},
 	};
 };
 
