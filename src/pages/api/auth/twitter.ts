@@ -2,12 +2,20 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import TwitterAuth from '../../../utils/TwitterAuth';
 import { LoginResult } from 'twitter-api-v2/dist/types';
 import { getSession } from 'next-auth/client';
+import { Session } from 'next-auth';
 
 const twitter = async (request: NextApiRequest, response: NextApiResponse) => {
-	console.log(request);
-	console.log(response);
-	
+	console.log('calling twitter auth api');
+	const session: Session | null = await getSession({ req: request });
+
+	if (session == null) {
+		console.log('not authorized 401');
+		response.status(401).send('Not authorized');
+		return;
+	}
+
 	if (request.method !== 'GET') {
+		console.log('not authorized 404');
 		response.status(404).send(null);
 		return;
 	}
@@ -37,13 +45,10 @@ const twitter = async (request: NextApiRequest, response: NextApiResponse) => {
 		return;
 	}
 
-	const session = await getSession({ req: request });
-	await TwitterAuth.linkAccount(loginResult, session?.user.id);
+	await TwitterAuth.linkAccount(loginResult, session.user.id);
 	await TwitterAuth.clearCache(oAuthToken);
 	
-	response.status(200).send({
-		twitterUserId: loginResult.userId,
-	});
+	response.redirect('/verification/twitter');
 };
 
 export default twitter;

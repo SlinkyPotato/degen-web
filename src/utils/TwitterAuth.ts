@@ -22,6 +22,7 @@ export type TwitterAuthentication = {
 const TwitterAuth = {
 
 	authLink: async (): Promise<TwitterAuthentication> => {
+		console.log('starting to authlink');
 		const client = new TwitterApi({
 			appKey: apiKeys.twitterClientId,
 			appSecret: apiKeys.twitterClientSecret,
@@ -46,6 +47,7 @@ const TwitterAuth = {
 	},
 
 	getOAuthTokenSecret: async (oAuthToken: string) => {
+		console.log('looking for oAuthToken Secret');
 		const db: Db = await MongoDBUtils.connectDb(constants.DB_NAME_NEXTAUTH);
 		const cacheCollection: Collection = db.collection(constants.DB_COLLECTION_NEXT_AUTH_CACHE);
 		const { oAuthTokenSecret } = await cacheCollection.findOne({
@@ -74,26 +76,16 @@ const TwitterAuth = {
 		}
 	},
 	
-	linkAccount: async (loginResult: LoginResult, nextAuthId?: string): Promise<void> => {
+	linkAccount: async (loginResult: LoginResult, nextAuthId: string): Promise<void> => {
 		console.log('attempting to store twitter in db');
 		const db: Db = await MongoDBUtils.connectDb(constants.DB_NAME_NEXTAUTH);
 		const accountsCollection: Collection = db.collection(constants.DB_COLLECTION_NEXT_AUTH_ACCOUNTS);
-		
-		let query;
-		if (nextAuthId) {
-			query = {
-				providerId: platformTypes.TWITTER,
-				userId: ObjectId(nextAuthId),
-			};
-		} else {
-			query = {
-				providerId: platformTypes.TWITTER,
-				providerAccountId: loginResult.userId,
-			};
-		}
 
-		const result: FindAndModifyWriteOpResultObject<any> = await accountsCollection.findOneAndReplace(query, {
-			userId: nextAuthId ? ObjectId(nextAuthId) : null,
+		const result: FindAndModifyWriteOpResultObject<any> = await accountsCollection.findOneAndReplace({
+			providerId: platformTypes.TWITTER,
+			userId: ObjectId(nextAuthId),
+		}, {
+			userId: ObjectId(nextAuthId),
 			providerType: 'oauth',
 			providerId: platformTypes.TWITTER,
 			providerAccountId: `${loginResult.userId}`,

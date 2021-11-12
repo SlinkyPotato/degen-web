@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@next-auth/mongodb-adapter": "^0.0.2-next.285",
+    "cors": "^2.8.5",
     "mongodb": "^3.7.3",
     "next": "12.0.1",
     "next-auth": "^3.29.0",
@@ -25,6 +26,7 @@
     "twitter-api-v2": "^1.6.5"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.12",
     "@types/mongodb": "^3.6.20",
     "@types/node": "^16.11.6",
     "@types/react": "^17.0.33",
