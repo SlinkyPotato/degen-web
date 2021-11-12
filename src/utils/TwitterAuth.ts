@@ -74,16 +74,26 @@ const TwitterAuth = {
 		}
 	},
 	
-	linkTwitter: async (nextAuthId: string, loginResult: LoginResult): Promise<void> => {
-		console.log('attempting to link twitter to session');
+	linkAccount: async (loginResult: LoginResult, nextAuthId?: string): Promise<void> => {
+		console.log('attempting to store twitter in db');
 		const db: Db = await MongoDBUtils.connectDb(constants.DB_NAME_NEXTAUTH);
 		const accountsCollection: Collection = db.collection(constants.DB_COLLECTION_NEXT_AUTH_ACCOUNTS);
+		
+		let query;
+		if (nextAuthId) {
+			query = {
+				providerId: platformTypes.TWITTER,
+				userId: ObjectId(nextAuthId),
+			};
+		} else {
+			query = {
+				providerId: platformTypes.TWITTER,
+				providerAccountId: loginResult.userId,
+			};
+		}
 
-		const result: FindAndModifyWriteOpResultObject<any> = await accountsCollection.findOneAndReplace({
-			providerId: platformTypes.TWITTER,
-			userId: ObjectId(nextAuthId),
-		}, {
-			userId: ObjectId(nextAuthId),
+		const result: FindAndModifyWriteOpResultObject<any> = await accountsCollection.findOneAndReplace(query, {
+			userId: nextAuthId ? ObjectId(nextAuthId) : null,
 			providerType: 'oauth',
 			providerId: platformTypes.TWITTER,
 			providerAccountId: `${loginResult.userId}`,
@@ -94,9 +104,9 @@ const TwitterAuth = {
 		});
 		
 		if (result.ok != 1) {
-			throw new Error('failed to link twitter account');
+			throw new Error('failed to store twitter in db');
 		}
-		console.log('twitter linked to session');
+		console.log('twitter stored in db');
 	},
 	
 	clearCache: async (oAuthToken: string): Promise<void> => {
