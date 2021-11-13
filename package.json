@@ -15,6 +15,7 @@
     "format": "next lint --fix"
   },
   "dependencies": {
+    "@logdna/logger": "^2.4.1",
     "@next-auth/mongodb-adapter": "^0.0.2-next.285",
     "cors": "^2.8.5",
     "mongodb": "^3.7.3",

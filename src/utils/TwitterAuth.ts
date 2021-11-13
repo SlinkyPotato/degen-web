@@ -58,7 +58,6 @@ const TwitterAuth = {
 	},
 
 	login: async (oAuthToken: string, oAuthTokenSecret: string, oauthVerifier: string): Promise<LoginResult> => {
-		console.log('attempting to login');
 		const client = new TwitterApi({
 			appKey: apiKeys.twitterClientId,
 			appSecret: apiKeys.twitterClientSecret,
@@ -68,13 +67,16 @@ const TwitterAuth = {
 
 		try {
 			const result: LoginResult = await client.login(oauthVerifier);
-			console.log('login successful!');
 			return result;
 		} catch (e) {
 			console.log('failed to login');
 			throw new Error('failed to login');
 		}
 	},
+	//
+	// clientLogin: async (accessToken: string): Promise<LoginResult> => {
+	//	
+	// },
 	
 	linkAccount: async (loginResult: LoginResult, nextAuthId: string): Promise<void> => {
 		console.log('attempting to store twitter in db');

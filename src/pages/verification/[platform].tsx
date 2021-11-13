@@ -8,6 +8,7 @@ import { Collection, Db, ObjectId } from 'mongodb';
 import constants from '../../constants/constants';
 import { getSession, signIn, useSession } from 'next-auth/client';
 import TwitterAuth, { TwitterAuthentication } from '../../utils/TwitterAuth';
+import Log from '../../utils/Log';
 
 const Platform: NextPage<any> = () => {
 	const [session, loading] = useSession();
@@ -32,7 +33,8 @@ const Platform: NextPage<any> = () => {
 export const getServerSideProps = async (context: GetServerSidePropsContext): Promise<GetServerSidePropsResult<any>> => {
 	const session = await getSession(context);
 	const platform = context.params?.platform;
-	
+	Log.info('test');
+
 	if (platform !== platformTypes.TWITTER) {
 		return {
 			props: {},

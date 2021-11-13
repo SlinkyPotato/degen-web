@@ -1,8 +1,12 @@
-import { GetServerSidePropsContext, GetServerSidePropsResult, NextPage } from 'next';
+import {
+    NextPage,
+} from 'next';
 import { signIn, useSession } from 'next-auth/client';
-import TwitterAuth from '../../utils/TwitterAuth';
+import { Session } from 'next-auth';
+import { useRouter } from 'next/router';
 
 const Code: NextPage<any> = () => {
+    const claimCode: string = useRouter().query.code as string;
     const [session, loading] = useSession();
     if (loading) {
         return (
@@ -18,25 +22,14 @@ const Code: NextPage<any> = () => {
     }
     return (
       <>
-          <button onClick={() => console.log('retweet')}>Tweet to Claim POAP</button>
+          <button onClick={() => tweetToClaimPOAP(session, claimCode)}>Tweet to Claim POAP</button>
       </>
     );
-    // return (
-    //     <>
-    //         <p>isTwitterLinked: {session.isTwitterLinked ? 'true' : 'false'}</p>
-    //         <p>isDiscordLinked: {session?.isDiscordLinked ? 'true' : 'false'}</p>
-    //     </>
-    // );
 };
 
-export const getServerSideProps = async (context: GetServerSidePropsContext): Promise<GetServerSidePropsResult<any>> => {
-    const claimCode = context.params?.code;
+const tweetToClaimPOAP = (session: Session, claimCode: string) => {
+    console.log(session);
     console.log(claimCode);
-    const authLink = await TwitterAuth.authLink();
-    console.log(authLink);
-    return {
-        props: {},
-    };
 };
 
 export default Code;
