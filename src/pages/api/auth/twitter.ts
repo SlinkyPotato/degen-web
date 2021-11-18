@@ -1,8 +1,10 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import TwitterAuth from '../../../utils/TwitterAuth';
-import { LoginResult } from 'twitter-api-v2/dist/types';
 import { getSession } from 'next-auth/client';
 import { Session } from 'next-auth';
+import Cookies from 'cookies';
+import constants from '../../../constants/constants';
+import cookieKeys from '../../../constants/cookieKeys';
 
 const twitter = async (request: NextApiRequest, response: NextApiResponse) => {
 	console.log('calling twitter auth api');
@@ -21,34 +23,18 @@ const twitter = async (request: NextApiRequest, response: NextApiResponse) => {
 	}
 
 	const oAuthToken = request.query.oauth_token as string;
-	const oauthVerifier = request.query.oauth_verifier as string;
+	const oAuthVerifier = request.query.oauth_verifier as string;
 
-	if (oAuthToken == null && oauthVerifier == null) {
-		console.log('tokens not given');
-		response.status(404).send(null);
-		return;
-	}
-
-	if (oAuthToken != null && oauthVerifier == null) {
-		console.log('authorization not given');
-		response.status(401).send('Authorization not given');
-		return;
-	}
-
-	const oAuthTokenSecret: string = await TwitterAuth.getOAuthTokenSecret(oAuthToken);
-	let loginResult: LoginResult;
-	try {
-		loginResult = await TwitterAuth.login(oAuthToken, oAuthTokenSecret, oauthVerifier);
-	} catch (e) {
-		console.log('failed login to twitter');
-		response.status(500).send('login failed');
-		return;
-	}
-
-	await TwitterAuth.linkAccount(loginResult, session.user.id);
-	await TwitterAuth.clearCache(oAuthToken);
+	const didRun: boolean = await TwitterAuth.runCallBack(session.user.id, oAuthToken, oAuthVerifier);
 	
-	response.redirect('/verification/twitter');
+	if (!didRun) {
+		response.status(500).send('Failed');
+	}
+	
+	const cookies = new Cookies(request, response, { keys: [constants.SECRET_KEY] });
+	const redirectURL: string = cookies.get(cookieKeys.redirectPath);
+	
+	response.redirect(redirectURL);
 };
 
 export default twitter;

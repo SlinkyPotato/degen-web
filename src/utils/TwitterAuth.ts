@@ -10,11 +10,12 @@ import {
 } from 'mongodb';
 import MongoDBUtils from './MongoDBUtils';
 import constants from '../constants/constants';
-import { LoginResult } from 'twitter-api-v2/dist/types';
+import { LoginResult, UserV1 } from 'twitter-api-v2/dist/types';
 import platformTypes from '../constants/platformTypes';
+import Log from './Log';
 
 export type TwitterAuthentication = {
-	oauth_token: string;
+	oauth_token: string
 	oauth_token_secret: string;
 	url: string,
 }
@@ -56,6 +57,15 @@ const TwitterAuth = {
 		console.log('found oAuthTokenSecret from db');
 		return oAuthTokenSecret;
 	},
+	
+	clientV1: (accessToken: string, accessTokenSecret: string): TwitterApi => {
+		return new TwitterApi({
+			appKey: apiKeys.twitterClientId,
+			appSecret: apiKeys.twitterClientSecret,
+			accessToken: accessToken,
+			accessSecret: accessTokenSecret,
+		});
+	},
 
 	login: async (oAuthToken: string, oAuthTokenSecret: string, oauthVerifier: string): Promise<LoginResult> => {
 		const client = new TwitterApi({
@@ -67,16 +77,13 @@ const TwitterAuth = {
 
 		try {
 			const result: LoginResult = await client.login(oauthVerifier);
+			Log.debug(`${result.userId} logged in`);
 			return result;
 		} catch (e) {
 			console.log('failed to login');
 			throw new Error('failed to login');
 		}
 	},
-	//
-	// clientLogin: async (accessToken: string): Promise<LoginResult> => {
-	//	
-	// },
 	
 	linkAccount: async (loginResult: LoginResult, nextAuthId: string): Promise<void> => {
 		console.log('attempting to store twitter in db');
@@ -112,6 +119,52 @@ const TwitterAuth = {
 		if (result.result.ok != 1) {
 			throw new Error('failed to delete cache');
 		}
+	},
+	
+	runCallBack: async (sessionUserId: string, oAuthToken: string, oAuthVerifier: string): Promise<boolean> => {
+		if (oAuthToken == null && oAuthVerifier == null) {
+			console.log('tokens not given');
+			return false;
+		}
+
+		if (oAuthToken != null && oAuthVerifier == null) {
+			console.log('authorization not given');
+			return false;
+		}
+
+		const oAuthTokenSecret: string = await TwitterAuth.getOAuthTokenSecret(oAuthToken);
+		let loginResult: LoginResult;
+		try {
+			loginResult = await TwitterAuth.login(oAuthToken, oAuthTokenSecret, oAuthVerifier);
+		} catch (e) {
+			console.log('failed login to twitter');
+			return false;
+		}
+
+		await TwitterAuth.linkAccount(loginResult, sessionUserId);
+		await TwitterAuth.clearCache(oAuthToken);
+
+		return true;
+	},
+	
+	isTwitterLinked: async (sessionUserId: string): Promise<boolean> => {
+		const db: Db = await MongoDBUtils.connectDb(constants.DB_NAME_NEXTAUTH);
+		const accountsCollection: Collection = db.collection(constants.DB_COLLECTION_NEXT_AUTH_ACCOUNTS);
+
+		// Retrieve twitter account using discordId
+		const account = await accountsCollection.findOne({
+			providerId: platformTypes.TWITTER,
+			userId: ObjectId(sessionUserId),
+		});
+		
+		if (account == null || account.accessSecret == null) {
+			return false;
+		}
+		
+		const clientV1: TwitterApi = TwitterAuth.clientV1(account.accessToken, account.accessSecret);
+		const user: UserV1 = await clientV1.currentUser(true);
+		
+		return user != null && user.id_str != null;
 	},
 };
 

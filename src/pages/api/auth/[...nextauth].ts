@@ -11,12 +11,6 @@ import { AccountCollection } from '../../../models/AccountCollection';
 export default NextAuth({
 	// https://next-auth.js.org/configuration/providers
 	providers: [
-		Providers.Twitter({
-			clientId: apiKeys.twitterClientId,
-			clientSecret: apiKeys.twitterClientSecret,
-			profileUrl: 'https://api.twitter.com/1.1/account/verify_credentials.json?include_email=false',
-		}),
-
 		Providers.Discord({
 			clientId: apiKeys.discordClientId,
 			clientSecret: apiKeys.discordClientSecret,
@@ -98,7 +92,6 @@ export default NextAuth({
 				userId: ObjectId(session.user.id),
 			});
 			
-			session.isTwitterLinked = false;
 			session.isDiscordLinked = false;
 			await accountsCollection.forEach(account => {
 				if (account.providerId == 'discord') {
@@ -106,6 +99,8 @@ export default NextAuth({
 				}
 				if (account.providerId == 'twitter') {
 					session.isTwitterLinked = true;
+					session.twitterAccessToken = account.accessToken;
+					session.twitterAccessSecret = account.accessSecret;
 				}
 			});
 			return session;

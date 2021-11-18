@@ -8,7 +8,9 @@ import { Collection, Db, ObjectId } from 'mongodb';
 import constants from '../../constants/constants';
 import { getSession, signIn, useSession } from 'next-auth/client';
 import TwitterAuth, { TwitterAuthentication } from '../../utils/TwitterAuth';
-import Log from '../../utils/Log';
+import apiKeys from '../../constants/apiKeys';
+import Cookies from 'cookies';
+import cookieKeys from '../../constants/cookieKeys';
 
 const Platform: NextPage<any> = () => {
 	const [session, loading] = useSession();
@@ -33,7 +35,6 @@ const Platform: NextPage<any> = () => {
 export const getServerSideProps = async (context: GetServerSidePropsContext): Promise<GetServerSidePropsResult<any>> => {
 	const session = await getSession(context);
 	const platform = context.params?.platform;
-	Log.info('test');
 
 	if (platform !== platformTypes.TWITTER) {
 		return {
@@ -47,17 +48,12 @@ export const getServerSideProps = async (context: GetServerSidePropsContext): Pr
 			props: {},
 		};
 	}
-
-	const db: Db = await MongoDBUtils.connectDb(constants.DB_NAME_NEXTAUTH);
-	const accountsCollection: Collection = db.collection(constants.DB_COLLECTION_NEXT_AUTH_ACCOUNTS);
 	
-	// Retrieve twitter account using discordId
-	const account = await accountsCollection.findOne({
-		providerId: platformTypes.TWITTER,
-		userId: ObjectId(session.user.id),
-	});
-	
-	if (account == null || account.accessSecret == null) {
+	if (!(await TwitterAuth.isTwitterLinked(session.user.id))) {
+		
+		const cookies = new Cookies(context.req, context.res, { keys: [constants.SECRET_KEY] });
+		cookies.set(cookieKeys.redirectPath, '/verification/twitter');
+		
 		const twitterAuth: TwitterAuthentication = await TwitterAuth.authLink();
 		return {
 			redirect: {

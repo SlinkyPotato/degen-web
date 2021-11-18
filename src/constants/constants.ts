@@ -14,6 +14,8 @@ const constants = Object.freeze({
 	MONGODB_OPTIONS: '?retryWrites=true&w=majority',
 	
 	HOST_URL: process.env.NEXTAUTH_URL,
+	
+	SECRET_KEY: process.env.SECRET,
 });
 
 export default constants;
