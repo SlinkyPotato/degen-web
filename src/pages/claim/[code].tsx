@@ -5,14 +5,17 @@ import {
 } from 'next';
 import { getSession, signIn, useSession } from 'next-auth/client';
 import { TwitterApi } from 'twitter-api-v2';
-import { UserV1 } from 'twitter-api-v2/dist/types';
 import TwitterAuth, { TwitterAuthentication } from '../../utils/TwitterAuth';
 import Cookies from 'cookies';
 import constants from '../../constants/constants';
 import cookieKeys from '../../constants/cookieKeys';
+import { useRouter } from 'next/router';
 
-const Code: NextPage<any> = ({ userV1 }) => {
+const Code: NextPage<any> = ({ twitterClient }) => {
     const [session, loading] = useSession();
+    const router = useRouter();
+    const code = router.query?.code as string;
+    
     if (loading) {
         return (
             <>loading...</>
@@ -26,13 +29,13 @@ const Code: NextPage<any> = ({ userV1 }) => {
     }
     return (
       <>
-          <button onClick={() => tweetToClaimPOAP(userV1, null)}>Tweet to Claim POAP</button>
+          <button onClick={() => tweetToClaimPOAP(twitterClient, code)}>Tweet to Claim POAP</button>
       </>
     );
 };
 
-const tweetToClaimPOAP = async (userV1: UserV1, claimCode: string) => {
-    console.log(userV1);
+const tweetToClaimPOAP = async (client: TwitterApi, code: string) => {
+    console.log(code);
 };
 
 export const getServerSideProps = async (context: GetServerSidePropsContext): Promise<GetServerSidePropsResult<any>> => {
@@ -60,11 +63,12 @@ export const getServerSideProps = async (context: GetServerSidePropsContext): Pr
     }
 
     const client: TwitterApi = TwitterAuth.clientV1(session.twitterAccessToken, session.twitterAccessSecret);
-    const userV1: UserV1 = await client.v1.verifyCredentials();
-    
+    // const result = await client.v1.tweet(`I consent to receiving a #POAP claim link for attending https://twitter.com/i/spaces/${claimCode} via @banklessDAO`);
+    console.log(client);
+    // TODO: create post to twitter api
     return {
         props: {
-            userV1: userV1,
+            twitterClient: {},
         },
     };
 };

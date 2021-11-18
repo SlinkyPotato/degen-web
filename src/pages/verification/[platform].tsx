@@ -3,12 +3,9 @@ import {
 	NextPage,
 } from 'next';
 import platformTypes from '../../constants/platformTypes';
-import MongoDBUtils from '../../utils/MongoDBUtils';
-import { Collection, Db, ObjectId } from 'mongodb';
 import constants from '../../constants/constants';
 import { getSession, signIn, useSession } from 'next-auth/client';
 import TwitterAuth, { TwitterAuthentication } from '../../utils/TwitterAuth';
-import apiKeys from '../../constants/apiKeys';
 import Cookies from 'cookies';
 import cookieKeys from '../../constants/cookieKeys';
 
