@@ -8,6 +8,10 @@ const apiKeys = Object.freeze({
 
 	discordClientId: process.env.DEGEN_CLIENT_ID as string,
 	discordClientSecret: process.env.DEGEN_CLIENT_SECRET as string,
+	
+	logDNAToken: process.env.LOGDNA_TOKEN as string,
+	logDNAAppName: process.env.LOGDNA_APP_NAME as string,
+	logDNADefault: process.env.LOGDNA_DEFAULT_LEVEL as string,
 });
 
 export default apiKeys;

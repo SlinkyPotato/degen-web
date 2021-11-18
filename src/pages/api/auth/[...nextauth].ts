@@ -2,20 +2,15 @@ import NextAuth, { Session, User } from 'next-auth';
 import apiKeys from '../../../constants/apiKeys';
 import constants from '../../../constants/constants';
 import Providers from 'next-auth/providers';
-import { Collection, Db, ObjectId } from 'mongodb';
 import MongoDBUtils from '../../../utils/MongoDBUtils';
+import { Collection, Cursor, Db, ObjectId } from 'mongodb';
+import { AccountCollection } from '../../../models/AccountCollection';
 
 // For more information on each option (and a full list of options) go to
 // https://next-auth.js.org/configuration/options
 export default NextAuth({
 	// https://next-auth.js.org/configuration/providers
 	providers: [
-		// Providers.Twitter({
-		// 	clientId: apiKeys.twitterClientId,
-		// 	clientSecret: apiKeys.twitterClientSecret,
-		// 	profileUrl: 'https://api.twitter.com/1.1/account/verify_credentials.json?include_email=false',
-		// }),
-
 		Providers.Discord({
 			clientId: apiKeys.discordClientId,
 			clientSecret: apiKeys.discordClientSecret,
@@ -90,15 +85,24 @@ export default NextAuth({
 	// 	},
 		async session(session: Session, user: User) {
 			session.user.id = user.id;
-
 			const db: Db = await MongoDBUtils.connectDb(constants.DB_NAME_NEXTAUTH);
-			const sessionCollection: Collection = db.collection(constants.DB_COLLECTION_NEXT_AUTH_SESSIONS);
-			// Retrieve twitter account using discordId
-			const account = await sessionCollection.findOne({
+			const accountCollection: Collection = db.collection(constants.DB_COLLECTION_NEXT_AUTH_ACCOUNTS);
+			
+			const accountsCollection: Cursor<AccountCollection> = await accountCollection.find({
 				userId: ObjectId(session.user.id),
 			});
-			session.twitterAccessToken = account.twitterAccessToken;
-			session.twitterAccessSecret = account.twitterAccessSecret;
+			
+			session.isDiscordLinked = false;
+			await accountsCollection.forEach(account => {
+				if (account.providerId == 'discord') {
+					session.isDiscordLinked = true;
+				}
+				if (account.providerId == 'twitter') {
+					session.isTwitterLinked = true;
+					session.twitterAccessToken = account.accessToken;
+					session.twitterAccessSecret = account.accessSecret;
+				}
+			});
 			return session;
 		},
 
