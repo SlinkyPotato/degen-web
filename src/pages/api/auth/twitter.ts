@@ -5,20 +5,21 @@ import { Session } from 'next-auth';
 import Cookies from 'cookies';
 import constants from '../../../constants/constants';
 import cookieKeys from '../../../constants/cookieKeys';
+import Log from '../../../utils/Log';
 
 const twitter = async (request: NextApiRequest, response: NextApiResponse) => {
-	console.log('calling twitter auth api');
+	Log.debug('calling twitter auth api');
 	const session: Session | null = await getSession({ req: request });
 
 	if (session == null) {
-		console.log('not authorized 401');
-		response.status(401).send('Not authorized');
+		Log.warn('not authorized 401');
+		response.status(401).send('Not authorized.');
 		return;
 	}
 
 	if (request.method !== 'GET') {
-		console.log('not authorized 404');
-		response.status(404).send(null);
+		Log.warn('not found 404');
+		response.status(404).send('Not found.');
 		return;
 	}
 

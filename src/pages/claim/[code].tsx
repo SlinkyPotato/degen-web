@@ -4,17 +4,18 @@ import {
     NextPage,
 } from 'next';
 import { getSession, signIn, useSession } from 'next-auth/client';
-import { TwitterApi } from 'twitter-api-v2';
 import TwitterAuth, { TwitterAuthentication } from '../../utils/TwitterAuth';
 import Cookies from 'cookies';
 import constants from '../../constants/constants';
 import cookieKeys from '../../constants/cookieKeys';
 import { useRouter } from 'next/router';
+import axios from 'axios';
 
-const Code: NextPage<any> = ({ twitterClient }) => {
+const Code: NextPage<any> = () => {
     const [session, loading] = useSession();
     const router = useRouter();
     const code = router.query?.code as string;
+    let hasClaimed = false;
     
     if (loading) {
         return (
@@ -27,15 +28,29 @@ const Code: NextPage<any> = ({ twitterClient }) => {
           <></>
         );
     }
+    if (!hasClaimed) {
+        return (
+          <>
+              <button onClick={async () => hasClaimed = await tweetToClaimPOAP(code)}>Tweet to Claim POAP</button>
+          </>
+        );
+    }
+    
     return (
       <>
-          <button onClick={() => tweetToClaimPOAP(twitterClient, code)}>Tweet to Claim POAP</button>
+          Thank you! You should receive a POAP after the event has finished.
       </>
     );
 };
 
-const tweetToClaimPOAP = async (client: TwitterApi, code: string) => {
-    console.log(code);
+const tweetToClaimPOAP = async (code: string): Promise<boolean> => {
+    try {
+        const result = await axios.post('/api/poap/claim', { code: code });
+        return result.status === 200;
+    } catch (e) {
+        console.error('failed to tweet twitter space for user', e);
+    }
+    return false;
 };
 
 export const getServerSideProps = async (context: GetServerSidePropsContext): Promise<GetServerSidePropsResult<any>> => {
@@ -61,15 +76,9 @@ export const getServerSideProps = async (context: GetServerSidePropsContext): Pr
             },
         };
     }
-
-    const client: TwitterApi = TwitterAuth.clientV1(session.twitterAccessToken, session.twitterAccessSecret);
-    // const result = await client.v1.tweet(`I consent to receiving a #POAP claim link for attending https://twitter.com/i/spaces/${claimCode} via @banklessDAO`);
-    console.log(client);
-    // TODO: create post to twitter api
+    
     return {
-        props: {
-            twitterClient: {},
-        },
+        props: {},
     };
 };
 
