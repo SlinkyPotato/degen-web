@@ -1,6 +1,6 @@
 import styles from './index.module.scss';
-import { Button, ButtonGroup } from '@chakra-ui/react';
+import Hero from '../src/home/hero';
 
 export default function Index() {
-  return <div className={styles.page}>Hello World</div>;
+  return <Hero></Hero>;
 }
