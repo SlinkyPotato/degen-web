@@ -1,25 +1,26 @@
-# BanklessBot Web
+<div align="center">
+  <h1>Degen Web</h1>
+  <a href="https://www.bankless.community/" target="_blank">Bankless</a> Degen Discord Bot Web App
+</div>
 
-Bankless Discord Bot Web App development
+<br/>
 
-## What We Need
+## Description
 
-Devs, testers, reviewers. If you are interested in developing features for
-the bot, please see the Getting Started heading below. If you want to be
-involved as a tester, please connect with a developer; paired programming
-will be a big win here. If you are interested in helping as a reviewer,
-please connect with any package maintainer for details on workflow.
+_coming soon..._
 
-## Getting Started
+<br/>
 
-If you're interested in helping with development, follow the steps outlined under docs/
-in [CONTRIBUTING.md](docs/CONTRIBUTING.md). This consists of setting up your own bot, having it added
-to the test server, and acquiring the tokens to connect with the test Notion
-and database.
+## Contributing
 
-## Notion Links
+### Submitting an Issue
 
--   [Guild Sign Up Form](https://docs.google.com/forms/d/e/1FAIpQLScpV0-OTbcRj-fH8zv7y9EYom-J-PtKxJSgGjBTUmKQ1pHv1g/viewform)
--   [Meeting Notes](https://www.notion.so/Developers-Guild-7dbde19a264d43debf75ecb27a9d406c)
--   [Bot Suggestion Form](https://docs.google.com/forms/d/e/1FAIpQLSffkvYdOeW5k3DAXeMl82wGlpuz8oZVIEOuf6mHFpYCriHqbw/viewform)
--   [DEV Guild Projects](https://www.notion.so/Dev-Guild-Projects-2d36ac50c02640bda22fbbf72069afe3)
+To submit a bug report or feature request, please read the guide on [submitting an issue here.](./docs/contributing/submitting-an-issue.md)
+
+### Getting Started
+
+First, check out the [getting stared guide](./docs/contributing/getting-started.md) to see how to setup your local development environment.
+
+### Contribution Guidelines
+
+Finally, review the [contribution guidelines](./docs/contributing/contribution-guidelines.md) before committing changes and submitting a PR.

@@ -1,0 +1,7 @@
+{
+  "version": 2,
+  "projects": {
+    "degen-web-ui": "apps/degen-web-ui",
+    "degen-web-ui-e2e": "apps/degen-web-ui-e2e"
+  }
+}

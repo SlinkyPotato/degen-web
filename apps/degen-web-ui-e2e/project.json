@@ -1,0 +1,28 @@
+{
+  "root": "apps/degen-web-ui-e2e",
+  "sourceRoot": "apps/degen-web-ui-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/degen-web-ui-e2e/cypress.json",
+        "devServerTarget": "degen-web-ui:serve"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "degen-web-ui:serve:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/degen-web-ui-e2e/**/*.{js,ts}"]
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["degen-web-ui"]
+}
