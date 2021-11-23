@@ -3,5 +3,6 @@ import { Collection } from 'mongodb';
 export interface POAPTwitterParticipants extends Collection {
 	twitterUserId: string,
 	twitterSpaceId: string,
-	checkInDateISO: string
+	tweetId: string,
+	dateOfTweet: string,
 }

@@ -9,15 +9,18 @@ import Cookies from 'cookies';
 import constants from '../../constants/constants';
 import cookieKeys from '../../constants/cookieKeys';
 import { useRouter } from 'next/router';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
+import { useState } from 'react';
+import Log from '../../utils/Log';
 
-const Code: NextPage<any> = () => {
+const Code: NextPage<any> = ({ hasPosted }) => {
     const [session, loading] = useSession();
     const router = useRouter();
     const code = router.query?.code as string;
-    let hasClaimed = false;
+    const [hasClaimed, setHasClaimed] = useState(hasPosted);
+    const [isTweetLoading, setIsTweetLoading] = useState(false);
     
-    if (loading) {
+    if (loading || isTweetLoading) {
         return (
             <>loading...</>
         );
@@ -31,7 +34,7 @@ const Code: NextPage<any> = () => {
     if (!hasClaimed) {
         return (
           <>
-              <button onClick={async () => hasClaimed = await tweetToClaimPOAP(code)}>Tweet to Claim POAP</button>
+              <button onClick={() => tweetToClaimPOAP(code, setHasClaimed, setIsTweetLoading)}>Tweet to Claim POAP</button>
           </>
         );
     }
@@ -43,14 +46,18 @@ const Code: NextPage<any> = () => {
     );
 };
 
-const tweetToClaimPOAP = async (code: string): Promise<boolean> => {
+const tweetToClaimPOAP = async (code: string, setHasClaimed: any, setIsTweetLoading: any): Promise<void> => {
     try {
-        const result = await axios.post('/api/poap/claim', { code: code });
-        return result.status === 200;
+        setIsTweetLoading(true);
+        axios.post('/api/poap/tweet', { code: code }).then((response: AxiosResponse) => {
+            setIsTweetLoading(false);
+            if (response.status === 200) {
+                setHasClaimed(true);
+            }
+        });
     } catch (e) {
         console.error('failed to tweet twitter space for user', e);
     }
-    return false;
 };
 
 export const getServerSideProps = async (context: GetServerSidePropsContext): Promise<GetServerSidePropsResult<any>> => {
@@ -65,6 +72,7 @@ export const getServerSideProps = async (context: GetServerSidePropsContext): Pr
     const claimCode = context.params?.code as string;
     
     if (!(await TwitterAuth.isTwitterLinked(session.user.id))) {
+        Log.debug('twitter account not linked');
         const cookies = new Cookies(context.req, context.res, { keys: [constants.SECRET_KEY] });
         cookies.set(cookieKeys.redirectPath, `/claim/${claimCode}`);
 
@@ -76,9 +84,25 @@ export const getServerSideProps = async (context: GetServerSidePropsContext): Pr
             },
         };
     }
-    
+    // const res = await fetch(`/api/poap/tweet?code=${claimCode}`);
+    // const data = await res.json();
+    //
+    // if (res.status != 200 || data == null) {
+    //     return {
+    //         props: {
+    //             hasPosted: false,
+    //         },
+    //     };
+    // }
+    // return {
+    //     props: {
+    //         hasPosted: data.hasPosted,
+    //     },
+    // };
     return {
-        props: {},
+        props: {
+            hasPosted: false,
+        },
     };
 };
 
