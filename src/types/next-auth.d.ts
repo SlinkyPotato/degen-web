@@ -18,6 +18,7 @@ declare module 'next-auth' {
 		expires?: string,
 		accessToken?: string,
 		isDiscordLinked?: boolean,
+		isTwitterLinked?: boolean,
 		twitterAccessToken?: string,
 		twitterAccessSecret?: string,
 	}

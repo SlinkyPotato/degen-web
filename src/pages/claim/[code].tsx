@@ -4,19 +4,23 @@ import {
     NextPage,
 } from 'next';
 import { getSession, signIn, useSession } from 'next-auth/client';
-import { TwitterApi } from 'twitter-api-v2';
 import TwitterAuth, { TwitterAuthentication } from '../../utils/TwitterAuth';
 import Cookies from 'cookies';
 import constants from '../../constants/constants';
 import cookieKeys from '../../constants/cookieKeys';
 import { useRouter } from 'next/router';
+import axios, { AxiosResponse } from 'axios';
+import { useState } from 'react';
+import Log from '../../utils/Log';
 
-const Code: NextPage<any> = ({ twitterClient }) => {
+const Code: NextPage<any> = ({ hasPosted }) => {
     const [session, loading] = useSession();
     const router = useRouter();
     const code = router.query?.code as string;
+    const [hasClaimed, setHasClaimed] = useState(hasPosted);
+    const [isTweetLoading, setIsTweetLoading] = useState(false);
     
-    if (loading) {
+    if (loading || isTweetLoading) {
         return (
             <>loading...</>
         );
@@ -27,15 +31,33 @@ const Code: NextPage<any> = ({ twitterClient }) => {
           <></>
         );
     }
+    if (!hasClaimed) {
+        return (
+          <>
+              <button onClick={() => tweetToClaimPOAP(code, setHasClaimed, setIsTweetLoading)}>Tweet to Claim POAP</button>
+          </>
+        );
+    }
+    
     return (
       <>
-          <button onClick={() => tweetToClaimPOAP(twitterClient, code)}>Tweet to Claim POAP</button>
+          Thank you! You should receive a POAP after the event has finished.
       </>
     );
 };
 
-const tweetToClaimPOAP = async (client: TwitterApi, code: string) => {
-    console.log(code);
+const tweetToClaimPOAP = async (code: string, setHasClaimed: any, setIsTweetLoading: any): Promise<void> => {
+    try {
+        setIsTweetLoading(true);
+        axios.post('/api/poap/tweet', { code: code }).then((response: AxiosResponse) => {
+            setIsTweetLoading(false);
+            if (response.status === 200) {
+                setHasClaimed(true);
+            }
+        });
+    } catch (e) {
+        console.error('failed to tweet twitter space for user', e);
+    }
 };
 
 export const getServerSideProps = async (context: GetServerSidePropsContext): Promise<GetServerSidePropsResult<any>> => {
@@ -50,6 +72,7 @@ export const getServerSideProps = async (context: GetServerSidePropsContext): Pr
     const claimCode = context.params?.code as string;
     
     if (!(await TwitterAuth.isTwitterLinked(session.user.id))) {
+        Log.debug('twitter account not linked');
         const cookies = new Cookies(context.req, context.res, { keys: [constants.SECRET_KEY] });
         cookies.set(cookieKeys.redirectPath, `/claim/${claimCode}`);
 
@@ -61,14 +84,24 @@ export const getServerSideProps = async (context: GetServerSidePropsContext): Pr
             },
         };
     }
-
-    const client: TwitterApi = TwitterAuth.clientV1(session.twitterAccessToken, session.twitterAccessSecret);
-    // const result = await client.v1.tweet(`I consent to receiving a #POAP claim link for attending https://twitter.com/i/spaces/${claimCode} via @banklessDAO`);
-    console.log(client);
-    // TODO: create post to twitter api
+    // const res = await fetch(`/api/poap/tweet?code=${claimCode}`);
+    // const data = await res.json();
+    //
+    // if (res.status != 200 || data == null) {
+    //     return {
+    //         props: {
+    //             hasPosted: false,
+    //         },
+    //     };
+    // }
+    // return {
+    //     props: {
+    //         hasPosted: data.hasPosted,
+    //     },
+    // };
     return {
         props: {
-            twitterClient: {},
+            hasPosted: false,
         },
     };
 };

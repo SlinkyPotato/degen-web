@@ -24,7 +24,7 @@ const Platform: NextPage<any> = () => {
 	}
 	return (
 		<>
-			Twitter account linked. You are now authorized to host POAP events for twitter spaces!
+			Twitter account linked. (This page can be closed).
 		</>
 	);
 };
