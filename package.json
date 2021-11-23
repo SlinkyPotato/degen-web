@@ -26,6 +26,8 @@
   },
   "devDependencies": {
     "@arkweid/lefthook": "^0.7.7",
+    "@commitlint/cli": "^15.0.0",
+    "@commitlint/config-conventional": "^15.0.0",
     "@nrwl/cli": "13.2.2",
     "@nrwl/cypress": "13.2.2",
     "@nrwl/eslint-plugin-nx": "13.2.2",

@@ -11,3 +11,5 @@ pre-commit:
     prettier:
       glob: '*.{js,ts,jsx,tsx}'
       run: npx prettier --write --ignore-unknown {staged_files}
+    lint-commit:
+      run: npx commitlint --edit
