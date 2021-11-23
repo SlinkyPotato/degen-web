@@ -1,5 +1,6 @@
 import { AppProps } from 'next/app';
 import { ChakraProvider } from '@chakra-ui/react';
+import { Provider } from 'next-auth/client';
 import Head from 'next/head';
 import Layout from '../src/layout/layout';
 import './styles.scss';
@@ -11,9 +12,17 @@ function CustomApp({ Component, pageProps }: AppProps) {
         <title>Degen Bot</title>
       </Head>
       <ChakraProvider>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+        <Provider
+          options={{
+            clientMaxAge: 0,
+            keepAlive: 0,
+          }}
+          session={pageProps.session}
+        >
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </Provider>
       </ChakraProvider>
     </>
   );

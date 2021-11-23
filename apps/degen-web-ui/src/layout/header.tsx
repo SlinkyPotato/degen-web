@@ -1,5 +1,6 @@
 import { Button } from '@chakra-ui/react';
 import NextLink from 'next/link';
+import SignIn from './signin';
 
 export default function Header() {
   return (
@@ -16,7 +17,7 @@ export default function Header() {
 
       <span className="flex-grow"></span>
 
-      <Button>Login</Button>
+      <SignIn></SignIn>
     </div>
   );
 }
