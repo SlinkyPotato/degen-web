@@ -1,13 +1,10 @@
-import Header from './header';
-import GridRow from './grid-row';
+import { Header } from './header';
 
-export default function Layout({ children }) {
+export function Layout({ children }) {
   return (
     <>
       <Header />
-      <main className="container px-4 mx-auto">
-        <GridRow>{children}</GridRow>
-      </main>
+      <main>{children}</main>
     </>
   );
 }

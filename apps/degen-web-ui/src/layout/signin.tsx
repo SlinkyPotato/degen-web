@@ -13,7 +13,7 @@ import { signOut, useSession } from 'next-auth/client';
 import NextLink from 'next/link';
 import React, { useEffect } from 'react';
 
-function SignIn() {
+export function SignIn() {
   const [session, loading] = useSession();
 
   if (session && !loading) {
@@ -43,7 +43,7 @@ function SignIn() {
     return (
       <Box>
         <NextLink href="/api/auth/signin" passHref>
-          <Button colorScheme="teal">Log In</Button>
+          <Button>Log In</Button>
         </NextLink>
       </Box>
     );
@@ -51,5 +51,3 @@ function SignIn() {
 
   return <Box></Box>;
 }
-
-export default SignIn;

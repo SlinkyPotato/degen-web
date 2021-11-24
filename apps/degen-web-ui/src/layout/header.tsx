@@ -1,8 +1,8 @@
 import { Button } from '@chakra-ui/react';
 import NextLink from 'next/link';
-import SignIn from './signin';
+import { SignIn } from './signin';
 
-export default function Header() {
+export function Header() {
   return (
     <div className="container px-3 py-4 mx-auto flex items-center">
       <div className="w-8 h-8 rounded-full bg-gray-500 mr-3"></div>

@@ -1,10 +1,10 @@
 import { Text, Link, Box } from '@chakra-ui/react';
-import GridRow from '../layout/grid-row';
+import { GridRow } from '../layout/grid-row';
 
-export default function Hero() {
+export function Hero() {
   return (
     <>
-      <GridRow span="full" className="mt-16">
+      <GridRow span="full" className="py-10">
         {/* Hero Text */}
         <Box className="col-span-full md:col-span-6 text-left">
           <Text fontSize="5xl" className="font-bold leading-tight mb-4">
