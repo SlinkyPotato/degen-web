@@ -1,3 +1,4 @@
+import { ChevronDownIcon } from '@chakra-ui/icons';
 import {
   Avatar,
   Box,
@@ -9,7 +10,7 @@ import {
   MenuList,
   Text,
 } from '@chakra-ui/react';
-import { signOut, useSession } from 'next-auth/client';
+import { signIn, signOut, useSession } from 'next-auth/client';
 import NextLink from 'next/link';
 import React, { useEffect } from 'react';
 
@@ -20,20 +21,16 @@ export function SignIn() {
     return (
       <Menu>
         <MenuButton pr="3">
-          <Flex alignItems="center">
-            <Avatar mr="3" src={session.user?.image || ''} />
-            <Text fontWeight="bold">{session.user?.name} </Text>
-          </Flex>
+          <Button variant="outline" className="flex items-center">
+            <Avatar size="xs" src={session.user?.image || ''} />
+            <Text fontWeight="bold" className="mx-2">
+              {session.user?.name}{' '}
+            </Text>
+            <ChevronDownIcon></ChevronDownIcon>
+          </Button>
         </MenuButton>
         <MenuList>
-          <MenuItem
-            onClick={(e) => {
-              e.preventDefault();
-              signOut();
-            }}
-          >
-            Log Out
-          </MenuItem>
+          <MenuItem onClick={() => signOut()}>Log Out</MenuItem>
         </MenuList>
       </Menu>
     );
@@ -42,9 +39,7 @@ export function SignIn() {
   if (!loading) {
     return (
       <Box>
-        <NextLink href="/api/auth/signin" passHref>
-          <Button>Log In</Button>
-        </NextLink>
+        <Button onClick={() => signIn('discord')}>Log In</Button>
       </Box>
     );
   }

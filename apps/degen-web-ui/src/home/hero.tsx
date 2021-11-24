@@ -11,12 +11,16 @@ export function Hero() {
             Manage your crypto community
           </Text>
           <Text fontSize="xl" color="gray.500">
-            Automate <Link href="https://poap.vote/">POAP</Link> distribution,
+            Automate <Link href="https://poap.vote/">POAP</Link> distribution and
+            more...
           </Text>
         </Box>
 
         {/* Hero Image */}
-        <Box className="col-span-full md:col-span-6 flex justify-center items-center">
+        <Box
+          color="gray.500"
+          className="col-span-full md:col-span-6 flex justify-center items-center"
+        >
           image placeholder
         </Box>
       </GridRow>

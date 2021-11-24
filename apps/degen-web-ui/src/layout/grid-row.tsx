@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { BaseProps } from '../core/interfaces/app-props.interface';
 import classnames from 'classnames';
+import { Box } from '@chakra-ui/react';
 
 export type GridRowSpan =
   | 'full'
@@ -40,8 +41,8 @@ export function GridRow({ className, children, span }: GridRowProps) {
   };
 
   return (
-    <div className={classnames(`grid grid-cols-12 gap-3`, className, getSpan(span))}>
+    <Box className={classnames(`grid grid-cols-12 gap-3`, className, getSpan(span))}>
       {children}
-    </div>
+    </Box>
   );
 }
