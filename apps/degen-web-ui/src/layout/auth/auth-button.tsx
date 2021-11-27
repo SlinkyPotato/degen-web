@@ -11,16 +11,16 @@ import {
 } from '@chakra-ui/react';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import React from 'react';
-import { SessionStatus } from '../core/enums/auth.enums';
+import { SessionStatus } from '../../core/enums/auth.enums';
 
-export function SignIn() {
+export function AuthButton() {
   const { data: session, status } = useSession();
 
   if (session && status === SessionStatus.Authenticated) {
     return (
       <Menu>
         <MenuButton pr="3">
-          <Button variant="outline" className="flex items-center">
+          <Button as={Box} variant="outline" className="flex items-center">
             <Avatar size="xs" src={session.user?.image || ''} />
             <Text fontWeight="bold" className="mx-2">
               {session.user?.name}{' '}
@@ -29,7 +29,7 @@ export function SignIn() {
           </Button>
         </MenuButton>
         <MenuList>
-          <MenuItem onClick={() => signOut()}>Log Out</MenuItem>
+          <MenuItem onClick={() => signOut({ callbackUrl: '/' })}>Log Out</MenuItem>
         </MenuList>
       </Menu>
     );
@@ -38,7 +38,9 @@ export function SignIn() {
   if (status !== SessionStatus.Authenticated) {
     return (
       <Box>
-        <Button onClick={() => signIn('discord')}>Log In</Button>
+        <Button onClick={() => signIn('discord', { callbackUrl: '/admin' })}>
+          Log In
+        </Button>
       </Box>
     );
   }

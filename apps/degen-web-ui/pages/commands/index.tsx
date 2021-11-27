@@ -1,6 +1,6 @@
 import styles from './commands.module.scss';
-import { Container } from '../../src/layout/container';
+import { GridContainer } from '../../src/layout/grid-container';
 
 export default function CommandsPage() {
-  return <Container className="py-6">/commands</Container>;
+  return <GridContainer className="py-6">/commands</GridContainer>;
 }

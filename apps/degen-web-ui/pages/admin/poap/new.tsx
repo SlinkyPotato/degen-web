@@ -1,6 +1,11 @@
 import React from 'react';
-import { Container } from '../../../src/layout/container';
+import { PageAuthGuard } from '../../../src/layout/auth/page-auth-guard';
+import { GridContainer } from '../../../src/layout/grid-container';
 
 export default function PoapNewPage() {
-  return <Container className="py-6">/admin/poap/new</Container>;
+  return (
+    <PageAuthGuard>
+      <GridContainer className="py-6">/admin/poap/new</GridContainer>;
+    </PageAuthGuard>
+  );
 }

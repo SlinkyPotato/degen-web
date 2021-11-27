@@ -9,7 +9,7 @@ export interface ContainerProps extends BaseProps {
   span?: GridRowSpan;
 }
 
-export function Container({
+export function GridContainer({
   children,
   color,
   bg,
