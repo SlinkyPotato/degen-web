@@ -3,21 +3,20 @@ import {
   Avatar,
   Box,
   Button,
-  Flex,
   Menu,
   MenuButton,
   MenuItem,
   MenuList,
   Text,
 } from '@chakra-ui/react';
-import { signIn, signOut, useSession } from 'next-auth/client';
-import NextLink from 'next/link';
-import React, { useEffect } from 'react';
+import { signIn, signOut, useSession } from 'next-auth/react';
+import React from 'react';
+import { SessionStatus } from '../core/enums/auth.enums';
 
 export function SignIn() {
-  const [session, loading] = useSession();
+  const { data: session, status } = useSession();
 
-  if (session && !loading) {
+  if (session && status === SessionStatus.Authenticated) {
     return (
       <Menu>
         <MenuButton pr="3">
@@ -36,7 +35,7 @@ export function SignIn() {
     );
   }
 
-  if (!loading) {
+  if (status !== SessionStatus.Authenticated) {
     return (
       <Box>
         <Button onClick={() => signIn('discord')}>Log In</Button>
