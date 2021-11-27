@@ -48,7 +48,7 @@ export default function CommandCard({ section, className }: CommandCardProps) {
           {section?.commands.map((command, i) => (
             <Tr key={i}>
               <Td className="font-bold">
-                <Code>{command?.name}</Code>
+                <Code className="whitespace-nowrap">{command?.name}</Code>
               </Td>
               <Td>{command?.description}</Td>
             </Tr>
