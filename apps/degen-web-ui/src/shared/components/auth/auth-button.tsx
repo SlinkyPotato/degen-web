@@ -11,7 +11,7 @@ import {
 } from '@chakra-ui/react';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import React from 'react';
-import { SessionStatus } from '../../core/enums/auth.enums';
+import { SessionStatus } from '../../../core/enums/auth.enums';
 
 export function AuthButton() {
   const { data: session, status } = useSession();

@@ -1,6 +1,6 @@
 import { Box } from '@chakra-ui/react';
 import classNames from 'classnames';
-import { BaseProps } from '../core/interfaces/app-props.interface';
+import { BaseProps } from '../../../core/interfaces/app-props.interface';
 import { GridRow, GridRowSpan } from './grid-row';
 
 export interface ContainerProps extends BaseProps {

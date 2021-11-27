@@ -1,4 +1,3 @@
-import { SessionStatus } from '../../core/enums/auth.enums';
 import { useSession } from 'next-auth/react';
 import * as React from 'react';
 import {
@@ -8,7 +7,8 @@ import {
   AlertTitle,
   Spinner,
 } from '@chakra-ui/react';
-import { GridContainer } from '../grid-container';
+import { GridContainer } from '../layout/grid-container';
+import { SessionStatus } from '../../../core/enums/auth.enums';
 
 export function PageAuthGuard({ children }) {
   const { data: session, status } = useSession();

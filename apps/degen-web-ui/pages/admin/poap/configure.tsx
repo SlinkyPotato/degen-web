@@ -1,6 +1,6 @@
 import React from 'react';
-import { PageAuthGuard } from '../../../src/layout/auth/page-auth-guard';
-import { GridContainer } from '../../../src/layout/grid-container';
+import { PageAuthGuard } from '../../../src/shared/components/auth/page-auth-guard';
+import { GridContainer } from '../../../src/shared/components/layout/grid-container';
 
 export default function PoapConfigurePage() {
   return (

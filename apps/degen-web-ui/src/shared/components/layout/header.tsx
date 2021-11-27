@@ -1,8 +1,8 @@
 import { Button, Box } from '@chakra-ui/react';
 import { useSession } from 'next-auth/react';
 import NextLink from 'next/link';
-import { SessionStatus } from '../core/enums/auth.enums';
-import { AuthButton } from './auth/auth-button';
+import { SessionStatus } from '../../../core/enums/auth.enums';
+import { AuthButton } from '../auth/auth-button';
 
 export function Header() {
   const { data: session, status } = useSession();

@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { BaseProps } from '../core/interfaces/app-props.interface';
 import classnames from 'classnames';
 import { Box } from '@chakra-ui/react';
+import { BaseProps } from '../../../core/interfaces/app-props.interface';
 
 export type GridRowSpan =
   | 'full'

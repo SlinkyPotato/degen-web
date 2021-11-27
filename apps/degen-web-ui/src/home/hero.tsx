@@ -1,5 +1,6 @@
 import { Text, Link, Box } from '@chakra-ui/react';
-import { GridRow } from '../layout/grid-row';
+import React from 'react';
+import { GridRow } from '../shared/components/layout/grid-row';
 
 export function Hero() {
   return (
