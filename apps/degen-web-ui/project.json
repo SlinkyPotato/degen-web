@@ -19,12 +19,14 @@
       "executor": "@nrwl/next:server",
       "options": {
         "buildTarget": "degen-web-ui:build",
-        "dev": true
+        "dev": true,
+        "customServerPath": "src/server.js"
       },
       "configurations": {
         "production": {
           "buildTarget": "degen-web-ui:build:production",
-          "dev": false
+          "dev": false,
+          "customServerPath": "src/server.js"
         }
       }
     },

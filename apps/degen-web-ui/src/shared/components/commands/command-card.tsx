@@ -1,7 +1,18 @@
 import * as React from 'react';
-import { Table, Tr, Thead, Th, Tbody, Td, Box, Text, Code } from '@chakra-ui/react';
-import { GridContainer } from './layout/grid-container';
-import { BaseProps } from '../../core/interfaces/app-props.interface';
+import {
+  Table,
+  Tr,
+  Thead,
+  Th,
+  Tbody,
+  Td,
+  Box,
+  Text,
+  Heading,
+  Code,
+} from '@chakra-ui/react';
+import { GridContainer } from '../layout/grid-container';
+import { BaseProps } from '../../../core/interfaces/app-props.interface';
 import classNames from 'classnames';
 
 export interface Command {
@@ -29,9 +40,9 @@ export default function CommandCard({ section, className }: CommandCardProps) {
     >
       <GridContainer>
         <Box className="px-2 py-6 col-span-12 md:col-span-10 lg:col-span-8">
-          <Text fontSize="2xl" className="font-bold mb-2" as={Box}>
+          <Heading fontSize="xl" className="font-bold mb-2" as={Box}>
             {section?.name}
-          </Text>
+          </Heading>
           <Text fontSize="md" color="gray.500" as={Box}>
             {section?.description}
           </Text>

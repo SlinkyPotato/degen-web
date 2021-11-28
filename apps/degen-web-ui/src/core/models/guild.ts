@@ -1,9 +1,5 @@
-export interface Guild {
+export interface UIGuild {
   id: string;
   name: string;
-  icon: string;
-  owner: boolean;
-  permissions: number;
-  permissions_new: string;
-  features: string[];
+  iconUrl: string;
 }

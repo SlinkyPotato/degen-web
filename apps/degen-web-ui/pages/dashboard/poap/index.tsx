@@ -1,11 +1,12 @@
 import React from 'react';
 import { PageAuthGuard } from '../../../src/shared/components/auth/page-auth-guard';
 import { GridContainer } from '../../../src/shared/components/layout/grid-container';
+import styles from './poap.module.scss';
 
-export default function PoapConfigurePage() {
+export default function PoapPage() {
   return (
     <PageAuthGuard>
-      <GridContainer className="py-6">/admin/poap/configure</GridContainer>;
+      <GridContainer className="py-6">/dashboard/poap</GridContainer>;
     </PageAuthGuard>
   );
 }

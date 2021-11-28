@@ -12,16 +12,22 @@ export function Header() {
       <Box className="w-8 h-8 rounded-full bg-gray-500 mr-3"></Box>
 
       <NextLink href={'/'} passHref>
-        <Button variant="ghost">Home</Button>
+        <Button variant="ghost" className="mx-1">
+          Home
+        </Button>
       </NextLink>
 
       <NextLink href={'/commands'} passHref>
-        <Button variant="ghost">Commands</Button>
+        <Button variant="ghost" className="mx-1">
+          Commands
+        </Button>
       </NextLink>
 
       {status === SessionStatus.Authenticated ? (
-        <NextLink href={'/admin'} passHref>
-          <Button variant="ghost">Dashboard</Button>
+        <NextLink href={'/dashboard'} passHref>
+          <Button variant="ghost" className="mx-1">
+            Dashboard
+          </Button>
         </NextLink>
       ) : null}
 

@@ -10,7 +10,7 @@ import {
   InputRightElement,
   Text,
 } from '@chakra-ui/react';
-import CommandCard from '../../src/shared/components/command-card';
+import CommandCard from '../../src/shared/components/commands/command-card';
 import { GridContainer } from '../../src/shared/components/layout/grid-container';
 import { PageTitle } from '../../src/shared/components/layout/page-title';
 import { CloseIcon, SearchIcon, WarningIcon } from '@chakra-ui/icons';

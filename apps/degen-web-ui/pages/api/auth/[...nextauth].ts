@@ -6,11 +6,10 @@ export default NextAuth({
     DiscordProvider({
       clientId: process.env.DISCORD_CLIENT_ID,
       clientSecret: process.env.DISCORD_CLIENT_SECRET,
-      // scope: 'identify email guilds',
     }),
   ],
   callbacks: {
-    async jwt({ token, user, account }) {
+    async jwt({ token, user, account, profile }) {
       // Initial sign in
       if (account && user) {
         return {
@@ -20,14 +19,12 @@ export default NextAuth({
           user,
         };
       }
-
       return token;
     },
     async session({ session, token }) {
       session.user = token.user;
       session.accessToken = token.accessToken;
       session.error = token.error;
-
       return session;
     },
   },

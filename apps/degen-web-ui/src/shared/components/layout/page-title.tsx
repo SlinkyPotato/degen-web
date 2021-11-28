@@ -1,4 +1,4 @@
-import { Box, Text } from '@chakra-ui/react';
+import { Box, Text, Heading } from '@chakra-ui/react';
 import * as React from 'react';
 import { BaseProps } from '../../../core/interfaces/app-props.interface';
 
@@ -17,9 +17,9 @@ export function PageTitle({
   return (
     <Box className="col-span-12 mb-4">
       <Box className="flex flex-row items-center mb-2">
-        <Text fontSize="5xl" className="font-bold mr-4">
+        <Heading fontSize="4xl" className="mr-4">
           {title}
-        </Text>
+        </Heading>
         <Box className="flex flex-grow items-center justify-end">{sectionContent}</Box>
       </Box>
       {description ? (
