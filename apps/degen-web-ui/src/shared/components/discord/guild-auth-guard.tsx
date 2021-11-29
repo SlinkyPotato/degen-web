@@ -1,12 +1,12 @@
 import { Avatar, Box, Button, Divider, Heading, Text } from '@chakra-ui/react';
 import React, { useContext } from 'react';
 import { BaseProps } from '../../../core/interfaces/app-props.interface';
-import { UIGuild } from '../../../core/models/guild';
+import { GuildDTO } from '../../../core/models/guild.dto';
 import { GuildContext } from '../context/guild.context';
 import { GridContainer } from '../layout/grid-container';
 
 export interface GuildAuthGuardProps extends BaseProps {
-  guilds: UIGuild[];
+  guilds: GuildDTO[];
 }
 
 /**

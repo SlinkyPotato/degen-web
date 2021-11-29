@@ -1,7 +1,7 @@
 import { Box, Tabs, Tab, TabList, TabPanel, TabPanels } from '@chakra-ui/react';
 import { GetServerSideProps } from 'next';
 import React from 'react';
-import { UIGuild } from '../../src/core/models/guild';
+import { GuildDTO } from '../../src/core/models/guild.dto';
 import { getDiscordService } from '../../src/core/api/discord.service';
 import { PoapView } from '../../src/poap/poap-view';
 import { PageAuthGuard } from '../../src/shared/components/auth/page-auth-guard';
@@ -13,7 +13,7 @@ import { GuildAuthGuard } from '../../src/shared/components/discord/guild-auth-g
 import { GuildMenu } from '../../src/shared/components/discord/guild-menu';
 
 export interface DashboardPageProps {
-  guilds: UIGuild[];
+  guilds: GuildDTO[];
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {

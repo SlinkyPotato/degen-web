@@ -3,7 +3,7 @@ import { getSession } from 'next-auth/react';
 import { DiscordSession } from '../models/auth-session';
 import { Client as DiscordClient, Guild } from 'discord.js';
 import { REST as DiscordRest } from '@discordjs/rest';
-import { UIGuild } from '../models/guild';
+import { GuildDTO } from '../models/guild.dto';
 
 export class DiscordService {
   private rest: DiscordRest;
@@ -22,23 +22,24 @@ export class DiscordService {
     return this.userSession?.user?.id;
   }
 
-  /** Fetches the current users guilds */
-  async getMutualGuilds(): Promise<UIGuild[]> {
+  /** Fetches a list of servers that are mutual between the bot and the current user */
+  async getMutualGuilds(): Promise<GuildDTO[]> {
     const botGuilds = await this.client.guilds.cache;
     const mutualGuilds = await Promise.all(
       botGuilds
         .map((guild) =>
           guild.members
             .fetch(this.userSession?.user?.id)
-            .then((guildMember) => this.mapGuildResponse(guild))
+            .then((guildMember) => this.transformGuildResponse(guild))
             .catch((err) => null)
         )
         .filter((guild) => guild !== null)
     );
-    return mutualGuilds as UIGuild[];
+    return mutualGuilds as GuildDTO[];
   }
 
-  private mapGuildResponse(guild: Guild): UIGuild {
+  /** Transforms a large discord.js guild entity to a light portable GuildDTO for the response */
+  private transformGuildResponse(guild: Guild): GuildDTO {
     return {
       id: guild.id,
       name: guild.name,
@@ -47,6 +48,7 @@ export class DiscordService {
   }
 }
 
+/** Returns an initialized instance of DiscordService */
 export const getDiscordService = async (req: IncomingMessage) => {
   return new DiscordService().init(req);
 };

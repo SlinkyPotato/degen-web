@@ -10,11 +10,11 @@ import {
   Text,
 } from '@chakra-ui/react';
 import React, { useContext } from 'react';
-import { UIGuild } from '../../../core/models/guild';
+import { GuildDTO } from '../../../core/models/guild.dto';
 import { GuildContext } from '../context/guild.context';
 
 export interface GuildMenuProps {
-  guilds: UIGuild[];
+  guilds: GuildDTO[];
 }
 
 /**
