@@ -6,19 +6,25 @@ import theme from '../src/core/chakra-theme';
 import './styles.scss';
 import React from 'react';
 import { Layout } from '../src/shared/components/layout/layout';
+import { Web3ReactProvider } from '@web3-react/core';
+import { Web3Provider } from '@ethersproject/providers';
 
 function CustomApp({ Component, pageProps }: AppProps) {
+  const getLibrary = (provider) => new Web3Provider(provider);
+
   return (
     <>
       <Head>
         <title>Degen Bot</title>
       </Head>
       <ChakraProvider theme={theme}>
-        <SessionProvider session={pageProps.session}>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        </SessionProvider>
+        <Web3ReactProvider getLibrary={getLibrary}>
+          <SessionProvider session={pageProps.session}>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </SessionProvider>
+        </Web3ReactProvider>
       </ChakraProvider>
     </>
   );
