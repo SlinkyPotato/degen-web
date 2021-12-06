@@ -4,6 +4,7 @@ import { DiscordSession } from '../models/auth-session';
 import { Client as DiscordClient, Guild } from 'discord.js';
 import { REST as DiscordRest } from '@discordjs/rest';
 import { GuildDTO } from '../models/guild.dto';
+import { ServerGlobals } from '../../server';
 
 export class DiscordService {
   private rest: DiscordRest;
@@ -11,8 +12,8 @@ export class DiscordService {
   private userSession: DiscordSession;
 
   async init(req: any) {
-    this.client = req.app.globals.discordClient;
-    this.rest = req.app.globals.discordRest;
+    this.client = (req.app.globals as ServerGlobals).discordClient;
+    this.rest = (req.app.globals as ServerGlobals).discordRest;
     this.userSession = (await getSession({ req })) as DiscordSession;
     return this;
   }

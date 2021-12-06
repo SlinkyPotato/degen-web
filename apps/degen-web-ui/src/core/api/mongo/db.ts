@@ -1,21 +1,22 @@
-import * as mongoDB from 'mongodb';
+import { Db, MongoClient, Collection, Document } from 'mongodb';
 
-export const collections: { poapAdmins?: mongoDB.Collection } = {};
+export interface MongoDbCollections {
+  poapAdmins: Collection<Document>;
+}
 
-export default async function connectToDatabase(): Promise<mongoDB.Db> {
-  console.log('Initializing db connection');
-  const client: mongoDB.MongoClient = new mongoDB.MongoClient(process.env.MONGODB_URI);
-
+export async function initDatabase(): Promise<{
+  db: Db;
+  collections: MongoDbCollections;
+}> {
+  console.log('> Initializing db connection...');
+  const client: MongoClient = new MongoClient(process.env.MONGODB_URI);
   await client.connect();
+  const db: Db = client.db(process.env.MONGODB_DB);
 
-  const db: mongoDB.Db = client.db(process.env.MONGODB_DB);
-
-  const poapAdminCollection: mongoDB.Collection = db.collection(
-    process.env.POAP_ADMIN_COLLECTION_NAME
-  );
-
-  collections.poapAdmins = poapAdminCollection;
-
-  console.log('db connection successful');
-  return db;
+  return {
+    db,
+    collections: {
+      poapAdmins: await db.collection(process.env.POAP_ADMIN_COLLECTION_NAME),
+    },
+  };
 }
