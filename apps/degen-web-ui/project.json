@@ -20,13 +20,13 @@
       "options": {
         "buildTarget": "degen-web-ui:build",
         "dev": true,
-        "customServerPath": "src/server.js"
+        "customServerPath": "src/server.ts"
       },
       "configurations": {
         "production": {
           "buildTarget": "degen-web-ui:build:production",
           "dev": false,
-          "customServerPath": "src/server.js"
+          "customServerPath": "src/server.ts"
         }
       }
     },
