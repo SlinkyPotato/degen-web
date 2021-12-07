@@ -1,6 +1,5 @@
 import { Box, Button } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
-import { PoapTable } from './poap-table';
 import * as React from 'react';
 import NextLink from 'next/link';
 
@@ -20,7 +19,6 @@ export function PoapView() {
           </Button>
         </NextLink>
       </Box>
-      <PoapTable></PoapTable>
     </>
   );
 }

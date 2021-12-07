@@ -1,7 +1,7 @@
 import { Avatar, Box, Button, Divider, Heading, Text } from '@chakra-ui/react';
 import React, { useContext } from 'react';
 import { BaseProps } from '../../../core/interfaces/app-props.interface';
-import { GuildDTO } from '../../../core/models/guild.dto';
+import { GuildDTO } from '../../../core/interfaces/guild.dto';
 import { GuildContext } from '../context/guild.context';
 import { GridContainer } from '../layout/grid-container';
 

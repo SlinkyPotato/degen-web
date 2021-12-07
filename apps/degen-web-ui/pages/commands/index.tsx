@@ -1,4 +1,3 @@
-import styles from './commands.module.scss';
 import React, { useState } from 'react';
 import {
   Box,

@@ -9,10 +9,10 @@ import {
   Td,
 } from '@chakra-ui/react';
 import * as React from 'react';
-import { PoapAdmin } from '../core/interfaces/degen-service.interface';
+import { PoapAdminDTO } from '../../core/interfaces/poap-admin.dto';
 
 export interface ConfigureTableProps {
-  admins: PoapAdmin[];
+  admins: PoapAdminDTO[];
 }
 
 export function PoapConfigTable({ admins }: ConfigureTableProps) {

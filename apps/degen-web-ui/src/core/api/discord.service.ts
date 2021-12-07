@@ -1,9 +1,9 @@
 import { IncomingMessage } from 'http';
 import { getSession } from 'next-auth/react';
-import { DiscordSession } from '../models/auth-session';
-import { Client as DiscordClient, Guild } from 'discord.js';
+import { DiscordSession } from '../interfaces/auth-session';
+import { Client as DiscordClient, Guild, GuildMember, Permissions } from 'discord.js';
 import { REST as DiscordRest } from '@discordjs/rest';
-import { GuildDTO } from '../models/guild.dto';
+import { GuildDTO } from '../interfaces/guild.dto';
 import { ServerGlobals } from '../../server';
 
 export class DiscordService {
@@ -31,7 +31,7 @@ export class DiscordService {
         .map((guild) =>
           guild.members
             .fetch(this.userSession?.user?.id)
-            .then((guildMember) => this.transformGuildResponse(guild))
+            .then((guildMember) => this.transformGuildResponse(guild, guildMember))
             .catch((err) => null)
         )
         .filter((guild) => guild !== null)
@@ -39,13 +39,31 @@ export class DiscordService {
     return mutualGuilds as GuildDTO[];
   }
 
+  async isGuildAdmin(guildId: string, guildMember?: GuildMember): Promise<boolean> {
+    const guild = await this.client.guilds.fetch(guildId);
+    if (!guildMember) {
+      guildMember = await guild.members.fetch(this.userSession?.user?.id);
+    }
+    return (
+      guildMember.permissions.has(Permissions.FLAGS.ADMINISTRATOR) ||
+      guildMember.permissions.has(Permissions.FLAGS.MANAGE_GUILD)
+    );
+  }
+
   /** Transforms a large discord.js guild entity to a light portable GuildDTO for the response */
-  private transformGuildResponse(guild: Guild): GuildDTO {
-    return {
-      id: guild.id,
-      name: guild.name,
-      iconUrl: guild.iconURL(),
-    };
+  private async transformGuildResponse(
+    guild: Guild,
+    guildMember: GuildMember
+  ): Promise<GuildDTO> {
+    if (guild) {
+      return {
+        id: guild.id,
+        name: guild.name,
+        iconUrl: guild.iconURL(),
+        guildAdmin: await this.isGuildAdmin(guild.id, guildMember),
+      };
+    }
+    return null;
   }
 }
 

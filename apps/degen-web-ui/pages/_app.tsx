@@ -8,6 +8,7 @@ import React from 'react';
 import { Layout } from '../src/shared/components/layout/layout';
 import { Web3ReactProvider } from '@web3-react/core';
 import { Web3Provider } from '@ethersproject/providers';
+import { ActiveGuildProvider } from '../src/shared/components/context/guild.context';
 
 function CustomApp({ Component, pageProps }: AppProps) {
   const getLibrary = (provider) => new Web3Provider(provider);
@@ -20,9 +21,11 @@ function CustomApp({ Component, pageProps }: AppProps) {
       <ChakraProvider theme={theme}>
         <Web3ReactProvider getLibrary={getLibrary}>
           <SessionProvider session={pageProps.session}>
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
+            <ActiveGuildProvider>
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
+            </ActiveGuildProvider>
           </SessionProvider>
         </Web3ReactProvider>
       </ChakraProvider>

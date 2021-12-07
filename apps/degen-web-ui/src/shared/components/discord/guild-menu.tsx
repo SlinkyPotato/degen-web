@@ -10,7 +10,7 @@ import {
   Text,
 } from '@chakra-ui/react';
 import React, { useContext } from 'react';
-import { GuildDTO } from '../../../core/models/guild.dto';
+import { GuildDTO } from '../../../core/interfaces/guild.dto';
 import { GuildContext } from '../context/guild.context';
 
 export interface GuildMenuProps {
