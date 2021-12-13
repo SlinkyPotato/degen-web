@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.0.0-SNAPSHOT
+## 1.0.0-BETA (2021-12-14)
 
 1. Add initial nextjs setup
 2. Integration discord auth
