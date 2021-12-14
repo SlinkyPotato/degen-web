@@ -24,7 +24,7 @@ module.exports = async function customServer(app, settings) {
   const { db, collections } = await initDatabase();
   server.globals = {
     discordClient: new Client({
-      intents: [Intents.FLAGS.GUILDS],
+      intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_VOICE_STATES],
     }),
     discordRest: new REST({ version: '9' }).setToken(discordToken),
     db,

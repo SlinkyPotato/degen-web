@@ -76,7 +76,7 @@ export default function DashboardPage({ guilds }: DashboardPageProps) {
                 {/* Poap Tab View */}
                 {state.poapAdmin ? (
                   <TabPanel>
-                    <PoapView></PoapView>
+                    <PoapView activeGuild={activeGuild}></PoapView>
                   </TabPanel>
                 ) : (
                   <></>

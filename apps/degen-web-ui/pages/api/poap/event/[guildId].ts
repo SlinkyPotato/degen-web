@@ -4,11 +4,11 @@ import { getPoapService } from '../../../../src/core/api/poap.service';
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const poapService = await getPoapService(req);
 
-  if (req.method === 'GET') {
+  if (req.method == 'GET') {
     const guildId = req.query.guildId as string;
-    const poapAdmins = await poapService.getPoapAdmins(guildId);
-    res.status(200).json({
-      poapAdmins,
-    });
+    const poapEvents = await poapService.getPoapEvents(guildId);
+
+    res.status(200).json({ poapEvents });
+    return;
   }
 }

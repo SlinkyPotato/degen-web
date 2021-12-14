@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { getPoapService } from '../../../../src/core/api/paop.service';
+import { getPoapService } from '../../../../src/core/api/poap.service';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const poapService = await getPoapService(req);

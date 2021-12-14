@@ -2,6 +2,8 @@ import { Db, MongoClient, Collection, Document } from 'mongodb';
 
 export interface MongoDbCollections {
   poapAdmins: Collection<Document>;
+  poapSettings: Collection<Document>;
+  poapParticipants: Collection<Document>;
 }
 
 export async function initDatabase(): Promise<{
@@ -17,6 +19,10 @@ export async function initDatabase(): Promise<{
     db,
     collections: {
       poapAdmins: await db.collection(process.env.POAP_ADMIN_COLLECTION_NAME),
+      poapSettings: await db.collection(process.env.POAP_SETTINGS_COLLECTION_NAME),
+      poapParticipants: await db.collection(
+        process.env.POAP_PARTICIPANTS_COLLECTION_NAME
+      ),
     },
   };
 }
