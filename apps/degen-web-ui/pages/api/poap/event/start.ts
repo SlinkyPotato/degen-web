@@ -33,9 +33,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     await poapService.removePoapParticipants(guildId, voiceChannelId);
 
-    members.forEach((member) => {
-      poapService.insertPoapParticipant(member, eventName);
-    });
+    await Promise.all(
+      members.map((member) => {
+        poapService.insertPoapParticipant(member, eventName);
+      })
+    );
 
     res.status(200).json({
       message: 'starting event',
