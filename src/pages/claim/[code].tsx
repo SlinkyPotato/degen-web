@@ -84,6 +84,7 @@ export const getServerSideProps = async (context: GetServerSidePropsContext): Pr
             },
         };
     }
+    // TODO: Revist and merge with Reece/cornbread merge
     // const res = await fetch(`/api/poap/tweet?code=${claimCode}`);
     // const data = await res.json();
     //
