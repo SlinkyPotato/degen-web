@@ -1,5 +1,6 @@
 import {
-	GetServerSidePropsContext, GetServerSidePropsResult,
+	GetServerSidePropsContext,
+	GetServerSidePropsResult,
 	NextPage,
 } from 'next';
 import platformTypes from '../../constants/platformTypes';
