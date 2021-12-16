@@ -11,6 +11,8 @@
   },
   "private": true,
   "dependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.16.5",
+    "@babel/plugin-proposal-decorators": "^7.16.5",
     "@chakra-ui/icons": "^1.1.1",
     "@chakra-ui/react": "^1.7.2",
     "@discordjs/rest": "^0.1.0-canary.0",
@@ -21,6 +23,8 @@
     "@web3-react/core": "^6.1.9",
     "@web3-react/injected-connector": "^6.0.7",
     "autoprefixer": "^10.4.0",
+    "babel-plugin-transform-typescript-metadata": "^0.3.2",
+    "class-validator": "^0.13.2",
     "classnames": "^2.3.1",
     "core-js": "^3.6.5",
     "discord-api-types": "^0.24.0",
@@ -34,12 +38,12 @@
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-hook-form": "^7.21.0",
+    "reflect-metadata": "^0.1.13",
     "regenerator-runtime": "0.13.7",
     "tailwindcss": "^2.2.19",
     "tslib": "^2.0.0"
   },
   "devDependencies": {
-    "@arkweid/lefthook": "^0.7.7",
     "@commitlint/cli": "^15.0.0",
     "@commitlint/config-conventional": "^15.0.0",
     "@nrwl/cli": "13.2.2",
@@ -86,6 +90,8 @@
     "apps/degen-web-ui/**/*.{ts,tsx,js,jsx}": [
       "eslint --fix",
       "git add"
-    ]
+    ],
+    "*.js": "eslint --cache --fix",
+    "*.{js,css,md}": "prettier --write"
   }
 }

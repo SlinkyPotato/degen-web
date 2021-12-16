@@ -1,11 +1,12 @@
 import NextAuth from 'next-auth';
 import DiscordProvider from 'next-auth/providers/discord';
+import { AppConfig } from '../../../src/core/app.config';
 
 export default NextAuth({
   providers: [
     DiscordProvider({
-      clientId: process.env.DISCORD_CLIENT_ID,
-      clientSecret: process.env.DISCORD_CLIENT_SECRET,
+      clientId: AppConfig.DISCORD_CLIENT_ID,
+      clientSecret: AppConfig.DISCORD_CLIENT_SECRET,
     }),
   ],
   callbacks: {
@@ -28,5 +29,5 @@ export default NextAuth({
       return session;
     },
   },
-  secret: process.env.SECRET,
+  secret: AppConfig.SECRET,
 });

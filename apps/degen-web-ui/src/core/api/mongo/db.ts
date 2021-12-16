@@ -1,4 +1,6 @@
+import { AppConstants } from './../../app.constants';
 import { Db, MongoClient, Collection, Document } from 'mongodb';
+import { AppConfig } from '../../app.config';
 
 export interface MongoDbCollections {
   poapAdmins: Collection<Document>;
@@ -11,17 +13,17 @@ export async function initDatabase(): Promise<{
   collections: MongoDbCollections;
 }> {
   console.log('> Initializing db connection...');
-  const client: MongoClient = new MongoClient(process.env.MONGODB_URI);
+  const client: MongoClient = new MongoClient(AppConfig.MONGODB_URI);
   await client.connect();
-  const db: Db = client.db(process.env.MONGODB_DB);
+  const db: Db = client.db(AppConfig.MONGODB_DB);
 
   return {
     db,
     collections: {
-      poapAdmins: await db.collection(process.env.POAP_ADMIN_COLLECTION_NAME),
-      poapSettings: await db.collection(process.env.POAP_SETTINGS_COLLECTION_NAME),
+      poapAdmins: await db.collection(AppConstants.POAP_ADMIN_COLLECTION_NAME),
+      poapSettings: await db.collection(AppConstants.POAP_SETTINGS_COLLECTION_NAME),
       poapParticipants: await db.collection(
-        process.env.POAP_PARTICIPANTS_COLLECTION_NAME
+        AppConstants.POAP_PARTICIPANTS_COLLECTION_NAME
       ),
     },
   };

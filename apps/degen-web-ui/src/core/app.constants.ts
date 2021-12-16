@@ -1,6 +1,5 @@
-// TODO: requirement for babel until this file exports something
 export const AppConstants = {
-  API_URL: process.env.API_URL,
-  DISCORD_TOKEN: process.env.DISCORD_TOKEN,
-  POAP_ADMIN_COLLECTION_NAME: process.env.POAP_ADMIN_COLLECTION_NAME ?? 'poapAdmins',
+  POAP_ADMIN_COLLECTION_NAME: 'poapAdmins',
+  POAP_SETTINGS_COLLECTION_NAME: 'poapSettings',
+  POAP_PARTICIPANTS_COLLECTION_NAME: 'poapParticipants',
 };
