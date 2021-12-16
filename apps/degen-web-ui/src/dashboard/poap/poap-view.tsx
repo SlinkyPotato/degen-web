@@ -71,7 +71,6 @@ export function PoapView({ activeGuild }: PoapView) {
     fetch(`/api/discord/channels/${activeGuild.id}`)
       .then((res) => res.json())
       .then(({ guildChannels }) => {
-        console.log(guildChannels);
         setChannelState({
           ...state,
           guildChannels: guildChannels.map((guildChannel: ChannelDTO) => ({
@@ -144,6 +143,7 @@ export function PoapView({ activeGuild }: PoapView) {
 
   return (
     <>
+      <br />
       {/* Toolbar Row */}
       <PoapTableCard
         title="POAP Events"

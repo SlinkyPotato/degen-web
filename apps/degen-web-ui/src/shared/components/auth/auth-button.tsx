@@ -20,7 +20,7 @@ export function AuthButton() {
   if (session && status === SessionStatus.Authenticated) {
     return (
       <Menu>
-        <MenuButton pr="3">
+        <MenuButton className="ml-1 pr-3">
           <Button as={Box} variant="outline" className="flex items-center">
             <Avatar size="2xs" src={session.user?.image || ''} />
             <Text fontWeight="bold" className="mx-2">
@@ -41,11 +41,12 @@ export function AuthButton() {
 
   if (status !== SessionStatus.Authenticated) {
     return (
-      <Box>
-        <Button onClick={() => signIn('discord', { callbackUrl: '/dashboard' })}>
-          Log In
-        </Button>
-      </Box>
+      <Button
+        className="ml-1"
+        onClick={() => signIn('discord', { callbackUrl: '/dashboard' })}
+      >
+        Log In
+      </Button>
     );
   }
 
