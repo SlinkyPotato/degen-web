@@ -1,5 +1,5 @@
 import { useWeb3React } from '@web3-react/core';
-import { MetamaskButton } from '../../src/shared/components/auth/metamask-button';
+import MetamaskButton from '../../src/shared/components/auth/metamask-button';
 import { useSession } from 'next-auth/react';
 import { SessionStatus } from '../../src/core/enums/auth.enums';
 import React from 'react';

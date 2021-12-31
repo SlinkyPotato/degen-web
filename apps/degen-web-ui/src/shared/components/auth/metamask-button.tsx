@@ -10,7 +10,7 @@ export interface MetamaskButtonProps {
 
 const injected = new InjectedConnector({});
 
-export const MetamaskButton = ({
+const MetamaskButton = ({
   message = 'Connect Wallet',
   activatedContent,
   callback,
@@ -30,3 +30,5 @@ export const MetamaskButton = ({
 
   return <>{active ? activatedContent || metamaskButton : metamaskButton}</>;
 };
+
+export default MetamaskButton;
