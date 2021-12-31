@@ -17,11 +17,18 @@ export class WalletService {
     return this;
   }
 
+  async getDiscordUser(userId: string) {
+    const discordUser = await this.collections.poapAdmins
+      .find({ discordUserId: userId })
+      .toArray();
+    return discordUser;
+  }
+
   async updateWallet(userId: string, address: string) {
     console.log(`CONNECT DISCORD USER: ${userId} to ADDRESS: ${address}`);
     const poapAdmin = await this.collections.discordUsers.insertOne({
       objectType: '???',
-      discordObjectId: userId,
+      discordUserId: userId,
       address,
     });
     console.log(`SAVED TO DB`);

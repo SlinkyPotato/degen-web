@@ -18,20 +18,24 @@ const Connect = () => {
   );
 
   useEffect(() => {
-    fetch(`/api/wallet/connect`, {
-      method: 'POST',
-      body: JSON.stringify({
-        guildId: 9999,
-        userId: 12345,
-      }),
-      headers: new Headers({
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      }),
-    })
-      .then((res) => res.json())
-      .then((result) => console.log(result));
-  }, []);
+    console.log();
+    if (active && session?.user?.id) {
+      fetch(`/api/wallet/connect`).then((res) => console.log(res));
+      fetch(`/api/wallet/connect`, {
+        method: 'POST',
+        body: JSON.stringify({
+          account,
+          userId: session.user.id,
+        }),
+        headers: new Headers({
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        }),
+      })
+        .then((res) => res.json())
+        .then((result) => console.log(result));
+    }
+  }, [active, session]);
 
   return (
     <GridContainer className="py-6">
