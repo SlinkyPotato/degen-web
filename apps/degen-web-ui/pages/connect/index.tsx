@@ -31,7 +31,7 @@ const Connect = () => {
     })
       .then((res) => res.json())
       .then((result) => console.log(result));
-  });
+  }, []);
 
   return (
     <GridContainer className="py-6">
