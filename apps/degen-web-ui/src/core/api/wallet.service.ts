@@ -18,13 +18,13 @@ export class WalletService {
   }
 
   async getDiscordUser(userId: string) {
-    const discordUser = await this.collections.poapAdmins
+    const discordUser = await this.collections.discordUsers
       .find({ discordUserId: userId })
       .toArray();
     return discordUser;
   }
 
-  async updateWallet(userId: string, address: string) {
+  async createDiscordWallet(userId: string, address: string) {
     console.log(`CONNECT DISCORD USER: ${userId} to ADDRESS: ${address}`);
     const poapAdmin = await this.collections.discordUsers.insertOne({
       objectType: '???',
@@ -33,6 +33,26 @@ export class WalletService {
     });
     console.log(`SAVED TO DB`);
     console.log(poapAdmin);
+    return {
+      userId,
+      address,
+    };
+  }
+
+  async updateDiscordWallet(userId: string, address: string) {
+    console.log(`UPDATING EXISTING DISCORD USER: ${userId} to ADDRESS: ${address}`);
+    const result = await this.collections.discordUsers.findOneAndUpdate(
+      {
+        discordUserId: userId,
+      },
+      {
+        $set: {
+          address: address,
+        },
+      }
+    );
+    console.log(`UPDATED EXISTING DB ENTRY`);
+    console.log(result);
     return {
       userId,
       address,

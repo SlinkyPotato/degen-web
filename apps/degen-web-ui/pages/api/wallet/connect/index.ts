@@ -6,14 +6,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   if (req.method === 'POST') {
     const { account, userId } = req.body;
-    const result = await walletService.updateWallet(userId, account);
-    res.status(200).json(result);
-  }
-
-  if (req.method === 'GET') {
-    const userId = req.query.userId as string;
-    console.log(`CHECK IF DISCORD USER ALREADY HAS ENTRY`);
-    const result = await walletService.getDiscordUser(userId);
+    console.log(`USER ID: ${userId}`);
+    const users = await walletService.getDiscordUser(userId);
+    console.log(`DO USERS EXIST?`);
+    console.log(users);
+    let result;
+    if (users.length > 0) {
+      result = await walletService.updateDiscordWallet(userId, account);
+    } else {
+      result = await walletService.createDiscordWallet(userId, account);
+    }
     res.status(200).json(result);
   }
 }

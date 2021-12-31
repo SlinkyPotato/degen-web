@@ -20,7 +20,6 @@ const Connect = () => {
   useEffect(() => {
     console.log();
     if (active && session?.user?.id) {
-      fetch(`/api/wallet/connect`).then((res) => console.log(res));
       fetch(`/api/wallet/connect`, {
         method: 'POST',
         body: JSON.stringify({
