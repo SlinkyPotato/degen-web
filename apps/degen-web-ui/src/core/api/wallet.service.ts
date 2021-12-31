@@ -17,14 +17,22 @@ export class WalletService {
     return this;
   }
 
-  async isPoapAdmin(guildId: string, userId: string) {
-    const admins = await this.collections.poapAdmins
-      .find({ discordServerId: guildId, discordObjectId: userId })
-      .toArray();
-    return admins?.length > 0;
+  async updateWallet(userId: string, address: string) {
+    console.log(`CONNECT DISCORD USER: ${userId} to ADDRESS: ${address}`);
+    const poapAdmin = await this.collections.discordUsers.insertOne({
+      objectType: '???',
+      discordObjectId: userId,
+      address,
+    });
+    console.log(`SAVED TO DB`);
+    console.log(poapAdmin);
+    return {
+      userId,
+      address,
+    };
   }
 }
 
-export const getPoapService = async (req: IncomingMessage) => {
+export const getWalletService = async (req: IncomingMessage) => {
   return new WalletService().init(req);
 };
