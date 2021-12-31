@@ -25,22 +25,14 @@ export class WalletService {
   }
 
   async createDiscordWallet(userId: string, address: string) {
-    console.log(`CONNECT DISCORD USER: ${userId} to ADDRESS: ${address}`);
-    const poapAdmin = await this.collections.discordUsers.insertOne({
-      objectType: '???',
+    const result = await this.collections.discordUsers.insertOne({
       discordUserId: userId,
       address,
     });
-    console.log(`SAVED TO DB`);
-    console.log(poapAdmin);
-    return {
-      userId,
-      address,
-    };
+    return result;
   }
 
   async updateDiscordWallet(userId: string, address: string) {
-    console.log(`UPDATING EXISTING DISCORD USER: ${userId} to ADDRESS: ${address}`);
     const result = await this.collections.discordUsers.findOneAndUpdate(
       {
         discordUserId: userId,
@@ -51,12 +43,7 @@ export class WalletService {
         },
       }
     );
-    console.log(`UPDATED EXISTING DB ENTRY`);
-    console.log(result);
-    return {
-      userId,
-      address,
-    };
+    return result;
   }
 }
 
