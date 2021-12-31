@@ -2,7 +2,7 @@ import { useWeb3React } from '@web3-react/core';
 import MetamaskButton from '../../src/shared/components/auth/metamask-button';
 import { useSession } from 'next-auth/react';
 import { SessionStatus } from '../../src/core/enums/auth.enums';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { GridContainer } from '../../src/shared/components/layout/grid-container';
 import { Box } from '@chakra-ui/react';
 
@@ -16,6 +16,22 @@ const Connect = () => {
       <h1>Discord: {session?.user?.name}</h1>
     </div>
   );
+
+  useEffect(() => {
+    fetch(`/api/wallet/connect`, {
+      method: 'POST',
+      body: JSON.stringify({
+        guildId: 9999,
+        userId: 12345,
+      }),
+      headers: new Headers({
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      }),
+    })
+      .then((res) => res.json())
+      .then((result) => console.log(result));
+  });
 
   return (
     <GridContainer className="py-6">
