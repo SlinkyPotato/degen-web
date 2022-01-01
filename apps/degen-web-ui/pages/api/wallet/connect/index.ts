@@ -6,10 +6,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   if (req.method === 'POST') {
     const { account, userId } = req.body;
-    console.log(`USER ID: ${userId}`);
     const users = await walletService.getDiscordUser(userId);
-    console.log(`DO USERS EXIST?`);
-    console.log(users);
     let result;
     if (users.length > 0) {
       result = await walletService.updateDiscordWallet(userId, account);
