@@ -18,7 +18,6 @@ const Connect = () => {
   );
 
   useEffect(() => {
-    console.log();
     if (active && session?.user?.id) {
       fetch(`/api/wallet/connect`, {
         method: 'POST',
@@ -34,7 +33,7 @@ const Connect = () => {
         .then((res) => res.json())
         .then((result) => console.log(result));
     }
-  }, [active, session]);
+  }, [active, session, account]);
 
   return (
     <GridContainer className="py-6">
