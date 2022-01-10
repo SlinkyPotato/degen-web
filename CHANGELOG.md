@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.0-BETA2
+
+1. Add catch for invalid twitter token validation
+
 ## 1.0.0-BETA (2021-12-14)
 
 1. Add initial nextjs setup
