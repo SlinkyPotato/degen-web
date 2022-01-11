@@ -9,6 +9,7 @@ import { getSession, signIn, useSession } from 'next-auth/client';
 import TwitterAuth, { TwitterAuthentication } from '../../utils/TwitterAuth';
 import Cookies from 'cookies';
 import cookieKeys from '../../constants/cookieKeys';
+import Log from '../../utils/Log';
 
 const Platform: NextPage<any> = () => {
 	const [session, loading] = useSession();
@@ -46,8 +47,9 @@ export const getServerSideProps = async (context: GetServerSidePropsContext): Pr
 			props: {},
 		};
 	}
+	const isTwitterLinked: boolean | void = await TwitterAuth.isTwitterLinked(session.user.id).catch(Log.warn);
 	
-	if (!(await TwitterAuth.isTwitterLinked(session.user.id))) {
+	if (!(isTwitterLinked)) {
 		
 		const cookies = new Cookies(context.req, context.res, { keys: [constants.SECRET_KEY] });
 		cookies.set(cookieKeys.redirectPath, '/verification/twitter');
