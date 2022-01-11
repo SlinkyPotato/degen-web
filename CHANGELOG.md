@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.0.0-BETA2
+## 1.0.0-BETA2 (2022-01-11)
 
 1. Add catch for invalid twitter token validation
 
