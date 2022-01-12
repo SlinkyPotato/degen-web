@@ -77,7 +77,7 @@ const TwitterAuth = {
 
 		try {
 			const result: LoginResult = await client.login(oauthVerifier);
-			Log.debug(`${result.userId} logged in`);
+			Log.debug(`twitterId: ${result.userId} logged in`);
 			return result;
 		} catch (e) {
 			Log.debug('failed to login');
@@ -160,11 +160,15 @@ const TwitterAuth = {
 		if (account == null || account.accessSecret == null) {
 			return false;
 		}
-		
-		const clientV1: TwitterApi = TwitterAuth.clientV1(account.accessToken, account.accessSecret);
-		const user: UserV1 = await clientV1.currentUser(true);
-		
-		return user != null && user.id_str != null;
+		try {
+			const clientV1: TwitterApi = TwitterAuth.clientV1(account.accessToken, account.accessSecret);
+			const user: UserV1 = await clientV1.currentUser(true);
+			
+			return user != null && user.id_str != null;
+		} catch (e) {
+			Log.error(e);
+			return false;
+		}
 	},
 };
 
