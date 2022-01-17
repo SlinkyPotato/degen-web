@@ -19,15 +19,17 @@ export class WalletService {
 
   async getDiscordUser(userId: string) {
     const discordUser = await this.collections.discordUsers
-      .find({ discordUserId: userId })
+      .find({ userId: userId })
       .toArray();
     return discordUser;
   }
 
-  async createDiscordWallet(userId: string, address: string) {
+  async createDiscordWallet(userId: string, address: string, username: string) {
     const result = await this.collections.discordUsers.insertOne({
-      discordUserId: userId,
+      userId: userId,
       address,
+      tag: username,
+      isDMEnabled: false,
     });
     return result;
   }
@@ -35,7 +37,7 @@ export class WalletService {
   async updateDiscordWallet(userId: string, address: string) {
     const result = await this.collections.discordUsers.findOneAndUpdate(
       {
-        discordUserId: userId,
+        userId: userId,
       },
       {
         $set: {

@@ -24,6 +24,7 @@ const Connect = () => {
         body: JSON.stringify({
           account,
           userId: session.user.id,
+          username: session.user.name,
         }),
         headers: new Headers({
           'Content-Type': 'application/json',
