@@ -3,6 +3,7 @@
 ## 1.0.0-BETA2 (2022-01-11)
 
 1. Add catch for invalid twitter token validation
+2. Update words
 
 ## 1.0.0-BETA (2021-12-14)
 

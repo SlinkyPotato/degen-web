@@ -34,6 +34,7 @@ const Code: NextPage<any> = ({ hasPosted }) => {
     if (!hasClaimed) {
         return (
           <>
+              <p>Clicking this will publish a tweet on your behalf to consent to receive a claim link for a POAP at the end of the Twitter Spaces event.</p>
               <button onClick={() => tweetToClaimPOAP(code, setHasClaimed, setIsTweetLoading)}>Tweet to Claim POAP</button>
           </>
         );
