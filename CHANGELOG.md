@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.0-BETA3 (2022-01-21)
+
+1. Remove mention in tweet
+
 ## 1.0.0-BETA2 (2022-01-11)
 
 1. Add catch for invalid twitter token validation

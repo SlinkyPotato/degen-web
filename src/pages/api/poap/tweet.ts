@@ -45,7 +45,7 @@ const postTweet = async (session: Session, response: NextApiResponse, code?: str
 
 	const client: TwitterApi = TwitterAuth.clientV1(session.twitterAccessToken, session.twitterAccessSecret);
 	const twitterUser: UserV1 = await client.currentUser();
-	const tweetResult: TweetV1 = await client.v1.tweet(`I consent to receiving a #POAP claim link for attending https://twitter.com/i/spaces/${code} via @banklessDAO`);
+	const tweetResult: TweetV1 = await client.v1.tweet(`I consent to receiving a #POAP claim link for attending https://twitter.com/i/spaces/${code}`);
 	const tweetId: string = tweetResult.id_str;
 
 	if (tweetId == null) {
