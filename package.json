@@ -1,6 +1,6 @@
 {
   "name": "degen-web",
-  "version": "1.0.0-beta2",
+  "version": "1.0.0-beta3",
   "private": true,
   "description": "This is the front end for DEGEN.",
   "main": "src/pages/index.tsx",
