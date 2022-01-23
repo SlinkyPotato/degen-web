@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  mongo:
+    container_name: degen_web_mongo
+    image: mongo:4.4.6
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: dev
+      MONGO_INITDB_ROOT_PASSWORD: pass
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb:/data/db
+      - ./apps/degen-web-ui/src/core/api/mongo/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+
+volumes:
+  mongodb:
