@@ -10,7 +10,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   if (req.method === 'GET') {
     const guildId = req.query.guildId as string;
-    const isPoapAdmin = await poapService.isPoapAdmin(guildId, userSession?.user?.id);
+    const isPoapAdmin = await poapService.isPoapAdmin(guildId, userSession?.discordId);
     res.status(200).json({
       isPoapAdmin,
     } as VerifyPoapDTO);

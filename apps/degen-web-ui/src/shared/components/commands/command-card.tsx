@@ -30,7 +30,7 @@ export interface CommandCardProps extends BaseProps {
   section: CommandSection;
 }
 
-export default function CommandCard({ section, className }: CommandCardProps) {
+export const CommandCard: React.FC<CommandCardProps> = ({ section, className }) => {
   return (
     <Box
       borderWidth="1px"
@@ -68,4 +68,4 @@ export default function CommandCard({ section, className }: CommandCardProps) {
       </Table>
     </Box>
   );
-}
+};

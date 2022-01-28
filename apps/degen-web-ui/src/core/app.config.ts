@@ -31,6 +31,27 @@ export class GlobalAppConfig {
   @IsString()
   MONGODB_DB: string;
 
+  @IsString()
+  AUTH_DB: string;
+
+  @IsString()
+  TWITTER_CLIENT_ID: string;
+
+  @IsString()
+  TWITTER_CLIENT_SECRET: string;
+
+  @IsString()
+  TWITTER_BEARER_TOKEN: string;
+
+  @IsString()
+  TWITTER_ACCESS_TOKEN: string;
+
+  @IsString()
+  TWITTER_ACCESS_TOKEN_SECRET: string;
+
+  @IsString()
+  TWITTER_CALLBACK_URL: string;
+
   constructor(config: any) {
     Object.assign(this, config);
     const errors = validateSync(this);
@@ -64,6 +85,13 @@ const config = {
   API_URL: process.env.API_URL ?? 'http://localhost:4200',
   MONGODB_URI: process.env.MONGODB_URI,
   MONGODB_DB: process.env.MONGODB_DB ?? 'degen',
+  AUTH_DB: process.env.AUTH_DB ?? 'nextauth',
+  TWITTER_CLIENT_ID: process.env.TWITTER_CLIENT_ID,
+  TWITTER_CLIENT_SECRET: process.env.TWITTER_CLIENT_SECRET,
+  TWITTER_BEARER_TOKEN: process.env.TWITTER_BEARER_TOKEN,
+  TWITTER_ACCESS_TOKEN: process.env.TWITTER_ACCESS_TOKEN,
+  TWITTER_ACCESS_TOKEN_SECRET: process.env.TWITTER_ACCESS_TOKEN_SECRET,
+  TWITTER_CALLBACK_URL: process.env.TWITTER_CALLBACK_URL,
 };
 
 const testConfig = {};

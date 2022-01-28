@@ -13,15 +13,17 @@ import { GuildMenu } from '../../src/shared/components/discord/guild-menu';
 import { GridContainer } from '../../src/shared/components/layout/grid-container';
 import { PageTitle } from '../../src/shared/components/layout/page-title';
 import { VerifyPoapDTO } from '../../src/core/interfaces/verify-poap.dto';
+import { PreferencesView } from '../../src/dashboard/preferences/preferences-view';
 export interface DashboardPageProps {
   guilds: GuildDTO[];
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const discordService = await getDiscordService(context.req);
+  const guilds = await discordService.getMutualGuilds();
   return {
     props: {
-      guilds: await discordService.getMutualGuilds(),
+      guilds,
     },
   };
 };
@@ -54,16 +56,22 @@ export default function DashboardPage({ guilds }: DashboardPageProps) {
       <GuildAuthGuard guilds={guilds}>
         <GridContainer className="py-6">
           <PageTitle
-            title="Admin DashBoard"
+            title="DashBoard"
             sectionContent={<GuildMenu guilds={guilds}></GuildMenu>}
           ></PageTitle>
           <Box className="col-span-full">
             <Tabs>
               <TabList>
+                <Tab>Preferences</Tab>
                 {activeGuild?.guildAdmin ? <Tab>Discord Admin</Tab> : <></>}
                 {state.poapAdmin ? <Tab>POAP</Tab> : <></>}
               </TabList>
               <TabPanels>
+                {/* User Preferences */}
+                <TabPanel>
+                  <PreferencesView></PreferencesView>
+                </TabPanel>
+
                 {/* Discord Admin Tab View */}
                 {activeGuild?.guildAdmin ? (
                   <TabPanel>

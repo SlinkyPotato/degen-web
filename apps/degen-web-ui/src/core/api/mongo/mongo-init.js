@@ -7,5 +7,8 @@ db = db.getSiblingDB('degen');
 db.createUser({
   user: 'dev',
   pwd: 'pass',
-  roles: [{ role: 'readWrite', db: 'degen' }],
+  roles: [
+    { role: 'readWrite', db: 'degen' },
+    { role: 'readWrite', db: 'nextauth' },
+  ],
 });

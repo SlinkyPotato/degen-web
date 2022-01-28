@@ -19,14 +19,18 @@
     "@emotion/react": "^11.6.0",
     "@emotion/styled": "^11.6.0",
     "@ethersproject/providers": "^5.5.1",
+    "@next-auth/mongodb-adapter": "^1.0.1",
     "@nrwl/next": "13.3.7",
     "@web3-react/core": "^6.1.9",
     "@web3-react/injected-connector": "^6.0.7",
     "autoprefixer": "^10.4.0",
+    "axios": "^0.25.0",
     "babel-plugin-transform-typescript-metadata": "^0.3.2",
     "class-validator": "^0.13.2",
     "classnames": "^2.3.1",
+    "cookies": "^0.8.0",
     "core-js": "^3.6.5",
+    "dayjs": "^1.10.7",
     "discord-api-types": "^0.24.0",
     "discord.js": "^13.3.1",
     "express": "^4.17.1",
@@ -41,7 +45,10 @@
     "reflect-metadata": "^0.1.13",
     "regenerator-runtime": "0.13.7",
     "tailwindcss": "^2.2.19",
-    "tslib": "^2.0.0"
+    "three": "^0.124.0",
+    "tslib": "^2.0.0",
+    "twitter-api-v2": "^1.9.1",
+    "vanta": "^0.5.21"
   },
   "devDependencies": {
     "@commitlint/cli": "^15.0.0",
@@ -95,4 +102,3 @@
     "*.{js,css,md}": "prettier --write"
   }
 }
-

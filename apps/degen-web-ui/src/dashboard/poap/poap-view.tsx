@@ -18,7 +18,7 @@ import { AddIcon } from '@chakra-ui/icons';
 import * as React from 'react';
 import NextLink from 'next/link';
 import { GuildDTO } from '../../core/interfaces/guild.dto';
-import PoapTableCard from './poap-table-card';
+import { PoapTableCard } from './poap-table-card';
 import { useCallback, useEffect, useState } from 'react';
 import { PoapSettingsDTO } from '../../core/interfaces/poap-settings.dto';
 import { useForm } from 'react-hook-form';
@@ -28,7 +28,7 @@ export interface PoapView {
   activeGuild: GuildDTO;
 }
 
-export function PoapView({ activeGuild }: PoapView) {
+export const PoapView: React.FC<PoapView> = ({ activeGuild }) => {
   const initialAddRef = React.useRef();
   const startEventForm = useForm();
 
@@ -238,7 +238,7 @@ export function PoapView({ activeGuild }: PoapView) {
       </Modal>
     </>
   );
-}
+};
 function setState(arg0: any) {
   throw new Error('Function not implemented.');
 }

@@ -11,7 +11,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   const { eventName, duration, guildId, voiceChannelId } = req.body;
   try {
-    const isPoapAdmin = await poapService.isPoapAdmin(guildId, userSession?.user?.id);
+    const isPoapAdmin = await poapService.isPoapAdmin(guildId, userSession?.discordId);
 
     if (!isPoapAdmin) {
       res.status(401).json({
@@ -23,7 +23,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const event = await poapService.startPoapEvent(
       eventName,
       duration,
-      userSession.user?.id,
+      userSession?.discordId,
       guildId,
       voiceChannelId
     );

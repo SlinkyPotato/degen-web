@@ -8,6 +8,7 @@ export interface ServerGlobals {
   discordClient: Client;
   discordRest: REST;
   db: Db;
+  authDb: Db;
   collections: MongoDbCollections;
 }
 
@@ -21,13 +22,14 @@ module.exports = async function customServer(app, settings) {
   if (!discordToken) {
     throw new Error('Required env variable missing: DISCORD_TOKEN');
   }
-  const { db, collections } = await initDatabase();
+  const { db, authDb, collections } = await initDatabase();
   server.globals = {
     discordClient: new Client({
       intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_VOICE_STATES],
     }),
     discordRest: new REST({ version: '9' }).setToken(discordToken),
     db,
+    authDb,
     collections,
   } as ServerGlobals;
   console.log('> Logging in discord.js client...');
