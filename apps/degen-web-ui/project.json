@@ -21,7 +21,7 @@
         "buildTarget": "degen-web-ui:build",
         "dev": true,
         "customServerPath": "src/server.ts",
-        "port": 3000
+        "port": 80
       },
       "configurations": {
         "production": {
