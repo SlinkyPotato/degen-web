@@ -104,6 +104,6 @@
   "engineStrict": true,
   "engines": {
     "yarn": "1.x",
-    "node": ">=14.x"
+    "node": ">=16.x"
   }
 }
