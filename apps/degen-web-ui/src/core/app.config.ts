@@ -14,7 +14,7 @@ export class GlobalAppConfig {
   DISCORD_CLIENT_SECRET: string;
 
   @IsString()
-  DISCORD_TOKEN: string;
+  NEXT_PUBLIC_DISCORD_TOKEN: string;
 
   @IsString()
   SECRET: string;
@@ -79,7 +79,7 @@ export class GlobalAppConfig {
 const config = {
   DISCORD_CLIENT_ID: process.env.DISCORD_CLIENT_ID,
   DISCORD_CLIENT_SECRET: process.env.DISCORD_CLIENT_SECRET,
-  DISCORD_TOKEN: process.env.DISCORD_TOKEN,
+  NEXT_PUBLIC_DISCORD_TOKEN: process.env.NEXT_PUBLIC_DISCORD_TOKEN,
   SECRET: process.env.SECRET ?? 'localSecret',
   NEXTAUTH_URL: process.env.NEXTAUTH_URL ?? 'http://localhost:4200',
   API_URL: process.env.API_URL ?? 'http://localhost:4200',

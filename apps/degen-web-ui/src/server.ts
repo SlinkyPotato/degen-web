@@ -4,6 +4,7 @@ import { REST } from '@discordjs/rest';
 import { initDatabase, MongoDbCollections } from './core/api/mongo/db';
 import { Db } from 'mongodb';
 import * as core from 'express-serve-static-core';
+import { AppConfig } from './core/app.config';
 
 interface CustomExpressServer extends core.Express {
   globals?: ServerGlobals;
@@ -32,7 +33,9 @@ module.exports = async function customServer(app, settings) {
     discordClient: new Client({
       intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_VOICE_STATES],
     }),
-    discordRest: new REST({ version: '9' }).setToken(discordToken),
+    discordRest: new REST({ version: '9' }).setToken(
+      AppConfig.NEXT_PUBLIC_DISCORD_TOKEN
+    ),
     db,
     authDb,
     collections,
