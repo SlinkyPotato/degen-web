@@ -3,6 +3,11 @@ import { Client, Intents } from 'discord.js';
 import { REST } from '@discordjs/rest';
 import { initDatabase, MongoDbCollections } from './core/api/mongo/db';
 import { Db } from 'mongodb';
+import * as core from 'express-serve-static-core';
+
+interface CustomExpressServer extends core.Express {
+  globals?: ServerGlobals;
+}
 
 export interface ServerGlobals {
   discordClient: Client;
@@ -15,7 +20,7 @@ export interface ServerGlobals {
 module.exports = async function customServer(app, settings) {
   const handle = app.getRequestHandler();
   await app.prepare();
-  const server = express();
+  const server: CustomExpressServer = express();
 
   // Init global server vars
   const discordToken = process.env.DISCORD_TOKEN;
