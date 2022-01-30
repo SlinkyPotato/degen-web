@@ -23,7 +23,7 @@ module.exports = async function customServer(app, settings) {
   const server: CustomExpressServer = express();
 
   // Init global server vars
-  const discordToken = process.env.DISCORD_TOKEN;
+  const discordToken = process.env.NEXT_PUBLIC_DISCORD_TOKEN;
   if (!discordToken) {
     throw new Error('Required env variable missing: DISCORD_TOKEN');
   }

@@ -100,5 +100,10 @@
     ],
     "*.js": "eslint --cache --fix",
     "*.{js,css,md}": "prettier --write"
+  },
+  "engineStrict": true,
+  "engines": {
+    "yarn": "1.x",
+    "node": ">=16.x"
   }
 }
