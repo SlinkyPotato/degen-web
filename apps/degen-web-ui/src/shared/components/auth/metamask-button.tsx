@@ -4,31 +4,24 @@ import { InjectedConnector } from '@web3-react/injected-connector';
 
 export interface MetamaskButtonProps {
   message?: string;
-  activatedContent?: any;
-  callback?: () => any;
 }
 
 const injected = new InjectedConnector({});
 
 const MetamaskButton = ({
   message = 'Connect Wallet',
-  activatedContent,
-  callback,
 }: MetamaskButtonProps) => {
-  const { activate, active } = useWeb3React();
+  const { activate } = useWeb3React();
 
   const connectMetamask = async () => {
     await activate(injected);
-    callback?.();
   };
 
-  const metamaskButton = (
+  return (
     <Button colorScheme="teal" variant="outline" onClick={() => connectMetamask()}>
       {message}
     </Button>
   );
-
-  return <>{active ? activatedContent || metamaskButton : metamaskButton}</>;
 };
 
 export default MetamaskButton;
