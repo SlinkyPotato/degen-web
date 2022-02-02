@@ -18,6 +18,7 @@
     "@discordjs/rest": "^0.1.0-canary.0",
     "@emotion/react": "^11.6.0",
     "@emotion/styled": "^11.6.0",
+    "@ethersproject/bignumber": "^5.5.0",
     "@ethersproject/providers": "^5.5.1",
     "@nrwl/next": "13.3.7",
     "@web3-react/core": "^6.1.9",
@@ -29,6 +30,7 @@
     "core-js": "^3.6.5",
     "discord-api-types": "^0.24.0",
     "discord.js": "^13.3.1",
+    "ethers": "^5.5.4",
     "express": "^4.17.1",
     "framer-motion": "^4.1.17",
     "mongodb": "^4.2.0",
@@ -95,4 +97,3 @@
     "*.{js,css,md}": "prettier --write"
   }
 }
-
