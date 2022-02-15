@@ -27,7 +27,7 @@ export interface GridRowProps extends BaseProps {
  * Reusable css grid nestable "row" component that creates a new grid/sub-grid
  * while also spanning a set amount within its parent grid (if it exists)
  */
-export function GridRow({ className, children, span }: GridRowProps) {
+export const GridRow: React.FC<GridRowProps> = ({ className, children, span }) => {
   const getSpan = (span) => {
     switch (span) {
       case null:
@@ -45,4 +45,4 @@ export function GridRow({ className, children, span }: GridRowProps) {
       {children}
     </Box>
   );
-}
+};

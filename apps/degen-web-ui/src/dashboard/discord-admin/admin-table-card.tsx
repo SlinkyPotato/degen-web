@@ -31,14 +31,14 @@ export interface AdminTableCardProps extends BaseProps {
   onRemoveUser?: (userId: string) => any;
 }
 
-export default function AdminTableCard({
+export const AdminTableCard: React.FC<AdminTableCardProps> = ({
   title,
   description,
   users,
   onAddUser,
   onRemoveUser,
   className,
-}: AdminTableCardProps) {
+}) => {
   return (
     <Box
       borderWidth="1px"
@@ -101,4 +101,4 @@ export default function AdminTableCard({
       </Table>
     </Box>
   );
-}
+};

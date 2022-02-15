@@ -8,12 +8,12 @@ export interface PageTitleProps extends BaseProps {
   sectionContent?: any;
 }
 
-export function PageTitle({
+export const PageTitle: React.FC<PageTitleProps> = ({
   title,
   description,
   children,
   sectionContent,
-}: PageTitleProps) {
+}) => {
   return (
     <Box className="col-span-12 mb-4">
       <Box className="flex flex-row items-center mb-2">
@@ -31,4 +31,4 @@ export function PageTitle({
       )}
     </Box>
   );
-}
+};

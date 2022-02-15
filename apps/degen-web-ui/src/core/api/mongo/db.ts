@@ -7,19 +7,27 @@ export interface MongoDbCollections {
   poapSettings: Collection<Document>;
   poapParticipants: Collection<Document>;
   discordUsers: Collection<Document>;
+  poapTwitterSettings: Collection<Document>;
+  poapTwitterParticipants: Collection<Document>;
+  nextAuthSessions: Collection<Document>;
+  nextAuthAccounts: Collection<Document>;
+  nextAuthCache: Collection<Document>;
 }
 
 export async function initDatabase(): Promise<{
   db: Db;
+  authDb: Db;
   collections: MongoDbCollections;
 }> {
   console.log('> Initializing db connection...');
   const client: MongoClient = new MongoClient(AppConfig.MONGODB_URI);
   await client.connect();
   const db: Db = client.db(AppConfig.MONGODB_DB);
+  const authDb = client.db(AppConfig.AUTH_DB);
 
   return {
     db,
+    authDb,
     collections: {
       discordUsers: await db.collection(AppConstants.DISCORD_USER_COLLECTION_NAME),
       poapAdmins: await db.collection(AppConstants.POAP_ADMIN_COLLECTION_NAME),
@@ -27,6 +35,13 @@ export async function initDatabase(): Promise<{
       poapParticipants: await db.collection(
         AppConstants.POAP_PARTICIPANTS_COLLECTION_NAME
       ),
+      poapTwitterSettings: await db.collection(AppConstants.POAP_TWITTER_SETTINGS),
+      poapTwitterParticipants: await db.collection(
+        AppConstants.POAP_TWITTER_PARTICIPANTS
+      ),
+      nextAuthSessions: await authDb.collection(AppConstants.NEXT_AUTH_SESSIONS),
+      nextAuthAccounts: await authDb.collection(AppConstants.NEXT_AUTH_ACCOUNTS),
+      nextAuthCache: await authDb.collection(AppConstants.NEXT_AUTH_CACHE),
     },
   };
 }

@@ -12,7 +12,7 @@ export interface GuildAuthGuardProps extends BaseProps {
 /**
  * Guard that will not display children until a guild has been set as the ActiveGuild
  */
-export function GuildAuthGuard({ children, guilds }) {
+export const GuildAuthGuard: React.FC<GuildAuthGuardProps> = ({ children, guilds }) => {
   const { activeGuild, setActiveGuild } = useContext(GuildContext);
 
   // When guild is set render children
@@ -43,12 +43,12 @@ export function GuildAuthGuard({ children, guilds }) {
               className="flex flex-col items-center justify-center h-auto py-3 m-4"
               key={i}
             >
-              <Avatar size="xl" src={guild.iconUrl}></Avatar>
-              <Text className="mt-2">{guild.name}</Text>
+              <Avatar size="xl" src={guild?.iconUrl}></Avatar>
+              <Text className="mt-2">{guild?.name}</Text>
             </Button>
           ))}
         </Box>
       </GridContainer>
     );
   }
-}
+};

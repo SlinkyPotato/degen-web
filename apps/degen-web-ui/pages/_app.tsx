@@ -9,6 +9,7 @@ import { Layout } from '../src/shared/components/layout/layout';
 import { Web3ReactProvider } from '@web3-react/core';
 import { Web3Provider } from '@ethersproject/providers';
 import { ActiveGuildProvider } from '../src/shared/components/context/guild.context';
+import * as THREE from 'three';
 
 function CustomApp({ Component, pageProps }: AppProps) {
   const getLibrary = (provider) => new Web3Provider(provider);
@@ -17,6 +18,7 @@ function CustomApp({ Component, pageProps }: AppProps) {
     <>
       <Head>
         <title>Degen Bot</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
       </Head>
       <ChakraProvider theme={theme}>
         <Web3ReactProvider getLibrary={getLibrary}>

@@ -14,14 +14,14 @@ import {
   ModalOverlay,
 } from '@chakra-ui/react';
 import { GuildDTO } from '../../core/interfaces/guild.dto';
-import AdminTableCard from './admin-table-card';
+import { AdminTableCard } from './admin-table-card';
 import { useForm } from 'react-hook-form';
 
 export interface DiscordAdminView {
   activeGuild: GuildDTO;
 }
 
-export function DiscordAdminView({ activeGuild }: DiscordAdminView) {
+export const DiscordAdminView: React.FC<DiscordAdminView> = ({ activeGuild }) => {
   const addAdminForm = useForm();
   const initialAddRef = React.useRef();
 
@@ -178,4 +178,4 @@ export function DiscordAdminView({ activeGuild }: DiscordAdminView) {
       </Modal>
     </>
   );
-}
+};

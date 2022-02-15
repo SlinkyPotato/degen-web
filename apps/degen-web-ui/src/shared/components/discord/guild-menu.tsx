@@ -21,7 +21,7 @@ export interface GuildMenuProps {
  * Simple menu that renders a list of guilds and updates the
  * ActiveGuild context whenever a new one is selected.
  */
-export function GuildMenu({ guilds }: GuildMenuProps) {
+export const GuildMenu: React.FC<GuildMenuProps> = ({ guilds }) => {
   const { activeGuild, setActiveGuild } = useContext(GuildContext);
   return (
     <Menu>
@@ -43,4 +43,4 @@ export function GuildMenu({ guilds }: GuildMenuProps) {
       </MenuList>
     </Menu>
   );
-}
+};

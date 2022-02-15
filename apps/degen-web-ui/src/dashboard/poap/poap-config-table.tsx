@@ -15,7 +15,7 @@ export interface ConfigureTableProps {
   admins: PoapAdminDTO[];
 }
 
-export function PoapConfigTable({ admins }: ConfigureTableProps) {
+export const PoapConfigTable: React.FC<ConfigureTableProps> = ({ admins }) => {
   return (
     <Table className="col-span-full">
       <TableCaption>
@@ -46,4 +46,4 @@ export function PoapConfigTable({ admins }: ConfigureTableProps) {
       </Tbody>
     </Table>
   );
-}
+};

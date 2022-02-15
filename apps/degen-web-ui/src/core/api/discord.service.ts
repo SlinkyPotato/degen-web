@@ -28,7 +28,7 @@ export class DiscordService {
 
   /** Returns the current users discord id */
   getUserId() {
-    return this.userSession?.user?.id;
+    return this.userSession?.discordId;
   }
 
   /** Fetches a list of servers that are mutual between the bot and the current user */
@@ -38,9 +38,9 @@ export class DiscordService {
       botGuilds
         .map((guild) =>
           guild.members
-            .fetch(this.userSession?.user?.id)
+            .fetch(this.userSession?.discordId)
             .then((guildMember) => this.transformGuildResponse(guild, guildMember))
-            .catch((err) => null)
+            .catch((err) => console.error(err))
         )
         .filter((guild) => guild !== null)
     );
@@ -50,7 +50,7 @@ export class DiscordService {
   async isGuildAdmin(guildId: string, guildMember?: GuildMember): Promise<boolean> {
     const guild = await this.client.guilds.fetch(guildId);
     if (!guildMember) {
-      guildMember = await guild.members.fetch(this.userSession?.user?.id);
+      guildMember = await guild.members.fetch(this.userSession?.discordId);
     }
     return (
       guildMember.permissions.has(Permissions.FLAGS.ADMINISTRATOR) ||

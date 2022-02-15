@@ -20,7 +20,8 @@
       "options": {
         "buildTarget": "degen-web-ui:build",
         "dev": true,
-        "customServerPath": "src/server.ts"
+        "customServerPath": "src/server.ts",
+        "port": 80
       },
       "configurations": {
         "production": {

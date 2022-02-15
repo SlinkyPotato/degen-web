@@ -1,12 +1,7 @@
 {
   "name": "degen-web",
-  "version": "1.0.0-beta3",
-  "private": true,
-  "description": "This is the front end for DEGEN.",
-  "main": "src/pages/index.tsx",
-  "repository": "git@github.com:BanklessDAO/discord-bots-web.git",
-  "author": "Brian <patinobrian@gmail.com>",
-  "license": "BUSL-1.1",
+  "version": "1.0.0",
+  "license": "MIT",
   "scripts": {
     "start": "nx serve",
     "build": "nx build",
@@ -19,34 +14,34 @@
     "@babel/plugin-proposal-decorators": "^7.16.5",
     "@chakra-ui/icons": "^1.1.1",
     "@chakra-ui/react": "^1.7.2",
-    "@discordjs/rest": "^0.1.0-canary.0",
+    "@discordjs/rest": "^0.3.0",
     "@emotion/react": "^11.6.0",
     "@emotion/styled": "^11.6.0",
     "@ethersproject/bignumber": "^5.5.0",
     "@ethersproject/providers": "^5.5.1",
+    "@next-auth/mongodb-adapter": "^1.0.1",
     "@nrwl/next": "13.3.7",
     "@web3-react/core": "^6.1.9",
     "@web3-react/injected-connector": "^6.0.7",
     "autoprefixer": "^10.4.0",
+    "axios": "^0.25.0",
     "babel-plugin-transform-typescript-metadata": "^0.3.2",
     "class-validator": "^0.13.2",
     "classnames": "^2.3.1",
+    "cookies": "^0.8.0",
     "core-js": "^3.6.5",
-    "discord-api-types": "^0.24.0",
-    "discord.js": "^13.3.1",
     "ethers": "^5.5.4",
-    "express": "^4.17.1",
+    "dayjs": "^1.10.7",
+    "discord-api-types": "^0.26.1",
+    "discord.js": "^13.6.0",
+    "express": "^4.17.2",
     "framer-motion": "^4.1.17",
     "mongodb": "^4.2.0",
     "next": "12.0.9",
     "next-auth": "4.0.1",
     "postcss": "^8.3.11",
     "@logdna/logger": "^2.4.1",
-    "@next-auth/mongodb-adapter": "^0.0.2-next.285",
-    "axios": "^0.24.0",
-    "cookies": "^0.8.0",
     "cors": "^2.8.5",
-    "dayjs": "^1.10.7",
     "next-session": "^4.0.2",
     "react": "17.0.2",
     "react-dom": "17.0.2",
@@ -54,7 +49,10 @@
     "reflect-metadata": "^0.1.13",
     "regenerator-runtime": "0.13.7",
     "tailwindcss": "^2.2.19",
-    "tslib": "^2.0.0"
+    "three": "^0.124.0",
+    "tslib": "^2.0.0",
+    "twitter-api-v2": "^1.9.1",
+    "vanta": "^0.5.21"
   },
   "devDependencies": {
     "@commitlint/cli": "^15.0.0",
@@ -74,8 +72,8 @@
     "@types/node": "14.14.33",
     "@types/react": "17.0.30",
     "@types/react-dom": "17.0.9",
-    "@typescript-eslint/eslint-plugin": "5.3.1",
-    "@typescript-eslint/parser": "5.3.1",
+    "@typescript-eslint/eslint-plugin": "^5.10.1",
+    "@typescript-eslint/parser": "^5.10.1",
     "babel-jest": "27.2.3",
     "cypress": "^8.3.0",
     "eslint": "8.2.0",
@@ -93,7 +91,7 @@
     "react-test-renderer": "17.0.2",
     "sass": "1.43.2",
     "ts-jest": "27.0.5",
-    "typescript": "~4.4.3"
+    "typescript": "^4.5.5"
   },
   "lint-staged": {
     "apps/degen-web-ui/**/*.{ts,tsx,css,js,jsx,scss,json,yaml}": [
@@ -106,5 +104,10 @@
     ],
     "*.js": "eslint --cache --fix",
     "*.{js,css,md}": "prettier --write"
+  },
+  "engineStrict": true,
+  "engines": {
+    "yarn": "1.x",
+    "node": ">=16.x"
   }
 }

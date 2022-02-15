@@ -27,14 +27,14 @@ export interface PoapTableCardProps extends BaseProps {
   onEndEvent?: (discordServerId: string, voiceChannelId: string) => any;
 }
 
-export default function PoapTableCard({
+export const PoapTableCard: React.FC<PoapTableCardProps> = ({
   title,
   description,
   events,
   onStartEvent,
   onEndEvent,
   className,
-}: PoapTableCardProps) {
+}) => {
   return (
     <Box
       borderWidth="1px"
@@ -125,4 +125,4 @@ export default function PoapTableCard({
       </Table>
     </Box>
   );
-}
+};
