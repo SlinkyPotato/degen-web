@@ -11,7 +11,7 @@ const Tipping = () => {
     const { account, library } = useWeb3React();
     const { data: session } = useSession();
     const [tipRecipient, setTipRecipient] = useState();
-    const [tipQuantity, setTipQuantity] = useState();
+    const [tipQuantity, setTipQuantity] = useState(BigNumber.from(0));
     const contract = new ethers.Contract('0xDB7Cb471dd0b49b29CAB4a1C14d070f27216a0Ab', bankTokenAbi, library.getSigner())
 
     const MULTIPLIER = '1000000000000000000';
