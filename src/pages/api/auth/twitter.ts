@@ -27,14 +27,14 @@ const twitter = async (request: NextApiRequest, response: NextApiResponse) => {
 	const oAuthVerifier = request.query.oauth_verifier as string;
 
 	const didRun: boolean = await TwitterAuth.runCallBack(session.user.id, oAuthToken, oAuthVerifier);
-	
+
 	if (!didRun) {
 		response.status(500).send('Failed');
 	}
-	
+
 	const cookies = new Cookies(request, response, { keys: [constants.SECRET_KEY] });
 	const redirectURL: string = cookies.get(cookieKeys.redirectPath);
-	
+
 	response.redirect(redirectURL);
 };
 

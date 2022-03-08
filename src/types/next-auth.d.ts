@@ -19,6 +19,7 @@ declare module 'next-auth' {
 		accessToken?: string,
 		isDiscordLinked?: boolean,
 		isTwitterLinked?: boolean,
+		isZoomLinked?: boolean,
 		twitterAccessToken?: string,
 		twitterAccessSecret?: string,
 	}

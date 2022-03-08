@@ -16,6 +16,12 @@ export default NextAuth({
 			clientSecret: apiKeys.discordClientSecret,
 			scope: 'identify',
 			profileUrl: 'https://discord.com/api/users/@me',
+			authorizationParams: { prompt: 'consent' },
+		}),
+		Providers.Zoom({
+			clientId: process.env.ZOOM_CLIENT_ID,
+			clientSecret: process.env.ZOOM_CLIENT_SECRET,
+			// authorizationParams: { response_type: 'code' },
 		}),
 	],
 
@@ -63,7 +69,7 @@ export default NextAuth({
 	// pages is not specified for that route.
 	// https://next-auth.js.org/configuration/pages
 	pages: {
-		// signIn: '/auth/signin',  // Displays signin buttons
+		signIn: '/auth/signin',  // Displays signin buttons
 		// signOut: '/auth/signout', // Displays form with sign out button
 		// error: '/auth/error', // Error code passed in query string as ?error=
 		// verifyRequest: '/auth/verify-request', // Used for check email page
@@ -84,14 +90,15 @@ export default NextAuth({
 	// 		return baseUrl + '/verification/twitter';
 	// 	},
 		async session(session: Session, user: User) {
+
 			session.user.id = user.id;
 			const db: Db = await MongoDBUtils.connectDb(constants.DB_NAME_NEXTAUTH);
 			const accountCollection: Collection = db.collection(constants.DB_COLLECTION_NEXT_AUTH_ACCOUNTS);
-			
+
 			const accountsCollection: Cursor<AccountCollection> = await accountCollection.find({
 				userId: ObjectId(session.user.id),
 			});
-			
+
 			session.isDiscordLinked = false;
 			await accountsCollection.forEach(account => {
 				if (account.providerId == 'discord') {
@@ -101,6 +108,9 @@ export default NextAuth({
 					session.isTwitterLinked = true;
 					session.twitterAccessToken = account.accessToken;
 					session.twitterAccessSecret = account.accessSecret;
+				}
+				if (account.providerId == 'zoom') {
+					session.isZoomLinked = true;
 				}
 			});
 			return session;
