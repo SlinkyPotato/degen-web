@@ -10,7 +10,7 @@ export default function SignIn({ providers }: NextAuthOptions) {
                     <button onClick={() => signIn(provider.id)}>
                         Sign in with {provider.name}
                     </button>
-                </div> : <div></div>))}
+                </div> : <div key={provider.name}></div>))}
         </>
     );
 }

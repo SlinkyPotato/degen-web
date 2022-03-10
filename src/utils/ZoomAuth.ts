@@ -26,7 +26,7 @@ const requestUserInfo = async (accessToken: string): Promise<AxiosResponse> => {
 const ZoomAuth = {
 
     getAuthUrl: async () => {
-        return 'https://zoom.us/oauth/authorize?response_type=code&client_id=' + process.env.ZOOM_CLIENT_ID + '&redirect_uri=' + process.env.ZOOM_CLIENT_SECRET
+        return 'https://zoom.us/oauth/authorize?response_type=code&client_id=' + process.env.ZOOM_CLIENT_ID + '&redirect_uri=' + process.env.ZOOM_REDIRECT_URL
     },
 
     isZoomLinked: async (sessionUserId: string): Promise<boolean> => {
@@ -61,7 +61,7 @@ const ZoomAuth = {
                 console.log('ACCESS_TOKEN', response.data.access_token);
                 console.log('REFRESH_TOKEN', response.data.refresh_token);
                 await accountsCollection.updateOne(
-                    { userId: ObjectId(sessionUserId) },
+                    { userId: ObjectId(sessionUserId), providerId: 'zoom' },
                     { $set: { accessToken: response.data.access_token, refreshToken: response.data.refresh_token } },
                     { upsert: true });
                 return true;

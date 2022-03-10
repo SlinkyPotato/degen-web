@@ -117,7 +117,7 @@ const authenticateZoom = async (context: GetServerSidePropsContext, session: Ses
 
 		return {
 			redirect: {
-				destination: ZoomAuth.getAuthUrl(),
+				destination: await ZoomAuth.getAuthUrl(),
 				permanent: false,
 			},
 		};
