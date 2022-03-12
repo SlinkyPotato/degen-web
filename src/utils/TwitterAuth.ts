@@ -23,7 +23,7 @@ export type TwitterAuthentication = {
 const TwitterAuth = {
 
 	authLink: async (): Promise<TwitterAuthentication> => {
-		console.log('starting to authlink');
+		Log.debug('starting to authlink');
 		const client = new TwitterApi({
 			appKey: apiKeys.twitterClientId,
 			appSecret: apiKeys.twitterClientSecret,
@@ -48,13 +48,13 @@ const TwitterAuth = {
 	},
 
 	getOAuthTokenSecret: async (oAuthToken: string) => {
-		console.log('looking for oAuthToken Secret');
+		Log.debug('looking for oAuthToken Secret');
 		const db: Db = await MongoDBUtils.connectDb(constants.DB_NAME_NEXTAUTH);
 		const cacheCollection: Collection = db.collection(constants.DB_COLLECTION_NEXT_AUTH_CACHE);
 		const { oAuthTokenSecret } = await cacheCollection.findOne({
 			oAuthToken: oAuthToken,
 		});
-		console.log('found oAuthTokenSecret from db');
+		Log.debug('found oAuthTokenSecret from db');
 		return oAuthTokenSecret;
 	},
 	
@@ -77,16 +77,16 @@ const TwitterAuth = {
 
 		try {
 			const result: LoginResult = await client.login(oauthVerifier);
-			Log.debug(`${result.userId} logged in`);
+			Log.debug(`twitterId: ${result.userId} logged in`);
 			return result;
 		} catch (e) {
-			console.log('failed to login');
+			Log.debug('failed to login');
 			throw new Error('failed to login');
 		}
 	},
 	
 	linkAccount: async (loginResult: LoginResult, nextAuthId: string): Promise<void> => {
-		console.log('attempting to store twitter in db');
+		Log.debug('attempting to store twitter in db');
 		const db: Db = await MongoDBUtils.connectDb(constants.DB_NAME_NEXTAUTH);
 		const accountsCollection: Collection = db.collection(constants.DB_COLLECTION_NEXT_AUTH_ACCOUNTS);
 
@@ -107,7 +107,7 @@ const TwitterAuth = {
 		if (result.ok != 1) {
 			throw new Error('failed to store twitter in db');
 		}
-		console.log('twitter stored in db');
+		Log.debug('twitter stored in db');
 	},
 	
 	clearCache: async (oAuthToken: string): Promise<void> => {
@@ -123,12 +123,12 @@ const TwitterAuth = {
 	
 	runCallBack: async (sessionUserId: string, oAuthToken: string, oAuthVerifier: string): Promise<boolean> => {
 		if (oAuthToken == null && oAuthVerifier == null) {
-			console.log('tokens not given');
+			Log.debug('tokens not given');
 			return false;
 		}
 
 		if (oAuthToken != null && oAuthVerifier == null) {
-			console.log('authorization not given');
+			Log.debug('authorization not given');
 			return false;
 		}
 
@@ -137,7 +137,7 @@ const TwitterAuth = {
 		try {
 			loginResult = await TwitterAuth.login(oAuthToken, oAuthTokenSecret, oAuthVerifier);
 		} catch (e) {
-			console.log('failed login to twitter');
+			Log.debug('failed login to twitter');
 			return false;
 		}
 
@@ -160,11 +160,15 @@ const TwitterAuth = {
 		if (account == null || account.accessSecret == null) {
 			return false;
 		}
-		
-		const clientV1: TwitterApi = TwitterAuth.clientV1(account.accessToken, account.accessSecret);
-		const user: UserV1 = await clientV1.currentUser(true);
-		
-		return user != null && user.id_str != null;
+		try {
+			const clientV1: TwitterApi = TwitterAuth.clientV1(account.accessToken, account.accessSecret);
+			const user: UserV1 = await clientV1.currentUser(true);
+			
+			return user != null && user.id_str != null;
+		} catch (e) {
+			Log.error(e);
+			return false;
+		}
 	},
 };
 

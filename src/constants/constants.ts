@@ -2,9 +2,8 @@ const constants = Object.freeze({
 	DB_NAME_DEGEN: 'degen',
 	DB_NAME_NEXTAUTH: 'nextauth',
 
-	DB_COLLECTION_POAP_SETTINGS: 'poapSettings',
-	DB_COLLECTION_POAP_PARTICIPANTS: 'poapParticipants',
-	DB_COLLECTION_POAP_ADMINS: 'poapAdmins',
+	DB_COLLECTION_POAP_TWITTER_SETTINGS: 'poapTwitterSettings',
+	DB_COLLECTION_POAP_TWITTER_PARTICIPANTS: 'poapTwitterParticipants',
 
 	DB_COLLECTION_NEXT_AUTH_SESSIONS: 'sessions',
 	DB_COLLECTION_NEXT_AUTH_ACCOUNTS: 'accounts',
