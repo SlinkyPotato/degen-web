@@ -15,7 +15,10 @@
     "format": "next lint --fix"
   },
   "dependencies": {
+    "@emotion/react": "^11.8.2",
+    "@emotion/styled": "^11.8.1",
     "@logdna/logger": "^2.4.1",
+    "@mui/material": "^5.5.0",
     "@next-auth/mongodb-adapter": "^0.0.2-next.285",
     "cookies": "^0.8.0",
     "cors": "^2.8.5",
