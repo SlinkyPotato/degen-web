@@ -1,0 +1,57 @@
+{
+  "root": "apps/degen-web-ui",
+  "sourceRoot": "apps/degen-web-ui",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/next:build",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "root": "apps/degen-web-ui",
+        "outputPath": "dist/apps/degen-web-ui"
+      },
+      "configurations": {
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/next:server",
+      "options": {
+        "buildTarget": "degen-web-ui:build",
+        "dev": true,
+        "customServerPath": "src/server.ts",
+        "port": 80
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "degen-web-ui:build:production",
+          "dev": false,
+          "customServerPath": "src/server.ts"
+        }
+      }
+    },
+    "export": {
+      "executor": "@nrwl/next:export",
+      "options": {
+        "buildTarget": "degen-web-ui:build:production"
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/degen-web-ui"],
+      "options": {
+        "jestConfig": "apps/degen-web-ui/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/degen-web-ui/**/*.{ts,tsx,js,jsx}"]
+      }
+    }
+  },
+  "tags": []
+}

@@ -1,4 +1,8 @@
 # Changelog
+## 1.0.0
+
+1. Migrate website redesign from https://github.com/reecemcd/degen-web/commit/ef3427f930d3e2eb12e6b82a268ffba71089e380
+2. Change default port to 3000.
 
 ## 1.0.0-BETA3 (2022-01-21)
 
