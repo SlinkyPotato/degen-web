@@ -407,9 +407,8 @@ const abi = [
 const Tip = () => {
   const [recipient, setRecipient] = useState();
   const [quantity, setQuantity] = useState();
-  const { account, library } = useWeb3React();
+  const { account } = useWeb3React();
 
-  console.log("Library", library);
   const createTip = async () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
@@ -419,14 +418,7 @@ const Tip = () => {
       signer
     );
 
-    console.log("CONTRACT");
-    console.log(contract);
-
-    const response = await contract.transfer(
-      recipient,
-      ethers.utils.parseEther(quantity)
-    );
-    console.log("Response", response);
+    await contract.transfer(recipient, ethers.utils.parseEther(quantity));
   };
 
   useEffect(() => {
