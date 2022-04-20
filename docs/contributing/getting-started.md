@@ -22,4 +22,4 @@ You will not be able to run the project without the required variables. If you r
 
 ### Run the project
 
-'yarn start' or 'npm start' will run the prestart script to get started and run the website.
+`yarn start` or `npm start` will run the prestart script to get started and run the website.
