@@ -1,40 +1,6 @@
 # Contribution Guidelines
 
-<h1>To get setup, please follow these guidelines</h1>
-
-If you have not created a discord bot for degen
-
-Create your own bot to use in your local dev environment
-
-Visit the Discord Developer Portal
-Sign in with your Discord credentials
-Create a new application, call it whatever you want
-On the left, select "Bot" and create a bot user
-Switch on "Presence Intent" and "Server Members Intent"
-Save your changes
-On the left, select "OAuth2"
-Under "Scopes", select "bot"
-Permissions. Enable only these permissions:
-Manage Roles
-Manage Channels
-Kick Members
-Ban Members
-Manage Emojis & Stickers
-Manage Webhooks
-View Channels
-All of the permissions under "Text Permissions"
-No permissions under "Voice Permissions"
-Select and copy the generated URL under "Scopes." Make sure the you have these permissions selected.
-Send the URL via Discord DM to JonValJonathan to have it added to the test Discord server
-
-Create a mongoDB Instance.
-A mongoDB solution can be hosted at https://www.mongodb.com/cloud. Alternatively, you can host one on your local machine. Instructions on creating an instance can be found here https://www.mongodb.com/docs/atlas/getting-started/?_ga=2.264132744.523485467.1650467546-1291180723.1650467546py
-Once created, copy your mongoDB cluster's URI and store it somewhere. You will need this later
-
-Clone the repo to local
-
-Create a new feature branch from the dev branch (docs/<name>, feature/<name>, release/<name>, hotfix/<name>).
-Copy the .env.template file and name it .env;
+<h2>To get setup, please follow the guidelines at </h2>
 
 Copy your mongoDB URI and replace the relevant values in your copied .env file
 Copy your bot's token (found under the bot tab in the developer's portal) and replace the relevant values in your copied .env file, making sure to update the file name where it is required in app.js
