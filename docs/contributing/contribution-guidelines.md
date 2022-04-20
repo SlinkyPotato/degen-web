@@ -1,6 +1,6 @@
 # Contribution Guidelines
 
-<h3>To get started, please follow the guidelines here https://github.com/olufemi-olumaiyegun/degen-web/blob/contributing_guidelines/docs/contributing/getting-started.md </h3>
+<h3>To get started, please follow the guidelines [here](https://github.com/degen-group/degen-web/blob/contributing_guidelines/docs/contributing/getting-started.md) </h3>
 Run the website and test your connections.
 Whenever you're ready for a pull request, open a pr with dev branch.
 Develop!
