@@ -18,8 +18,8 @@ If you want to spin up a local database for testing purposes without running DEG
 
 ### Environment Variables
 
-You will not be able to run the project without the required variables. If you run the project as described below it will log which required env variables are missing. Be sure to acquire these values from the team and add them to a `.env.local` file at the root of the project and next.js will pick the up for local development.
+You will not be able to run the project without the required variables. If you run the project as described below it will log which required env variables are missing. Be sure to copy those values from the `.env.template` file at the project root and add them to a `.env` file at the root of the project and next.js will pick the up for local development.
 
 ### Run the project
 
-To start the project run: `npm run start`
+`yarn start` or `npm start` will run the prestart script to get started and run the website.
