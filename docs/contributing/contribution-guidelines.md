@@ -1,6 +1,6 @@
 # Contribution Guidelines
 
-<h3>To get started, please follow the guidelines in `getting-started.md` [docs](docs/contributing/getting-started.md)</h3>
+<h3>To get started, please follow the guidelines in `getting-started.md`</h3>
 
 ##
 Run the website and test your connections.
