@@ -1,10 +1,6 @@
 # Contribution Guidelines
 
 <h2>To get setup, please follow the guidelines at </h2>
-
-Copy your mongoDB URI and replace the relevant values in your copied .env file
-Copy your bot's token (found under the bot tab in the developer's portal) and replace the relevant values in your copied .env file, making sure to update the file name where it is required in app.js
-'yarn start' or 'npm start' will run the prestart script to get everything installed and running.
 Run the website and test your connections.
 Whenever you're ready for a pull request, open a pr with dev branch.
 Develop!
