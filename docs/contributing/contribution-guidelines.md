@@ -14,4 +14,4 @@ Work on your features/assignments. Tests should be written for new features that
 When you feel the feature is ready to be battle tested, lint and test your code and run it through Prettier prior to pushing it. Submitting a PR will trigger this workflow anyway. However, the less we have to do to fix merge conflicts and failed workflows, the better.
 
 ##
-Once the branch is ready to be merged, push it to the repo and create a PR to the dev branch. From this point, it will follow the details set out in WORKFLOW.md.
+Once the branch is ready to be merged, push it to the repo and create a PR to the develop branch on the project repo.
