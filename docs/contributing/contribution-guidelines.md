@@ -1,6 +1,6 @@
 # Contribution Guidelines
 
-To get started, please follow the guidelines in [getting-started.md](docs/contributing/getting-started.md)
+To get started, please follow the guidelines in [getting-started.md](getting-started.md)
 
 ##
 Run the website and test your connections.
