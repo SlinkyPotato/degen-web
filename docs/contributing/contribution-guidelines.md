@@ -1,8 +1,6 @@
 # Contribution Guidelines
 
-Contribution Guidelines
-
-To get setup, please follow these guidelines:
+<h1>To get setup, please follow these guidelines</h1>
 
 If you have not created a discord bot for degen
 
