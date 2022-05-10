@@ -30,7 +30,7 @@
     "curly": ["error", "multi-line", "consistent"],
     "max-nested-callbacks": ["error", { "max": 4 }],
     "max-statements-per-line": ["error", { "max": 2 }],
-    "no-inline-comments": "error",
+    "no-inline-comments": "off",
     "no-trailing-spaces": ["error", { "skipBlankLines": true, "ignoreComments": true }],
     "no-var": "error",
     "object-curly-spacing": ["error", "always"],

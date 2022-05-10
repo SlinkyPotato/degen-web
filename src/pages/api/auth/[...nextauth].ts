@@ -1,41 +1,41 @@
-import NextAuth, { Session, User } from 'next-auth';
+import NextAuth  from 'next-auth';
 import apiKeys from '../../../constants/apiKeys';
 import constants from '../../../constants/constants';
-import Providers from 'next-auth/providers';
-import MongoDBUtils from '../../../utils/MongoDBUtils';
-import { Collection, Cursor, Db, ObjectId } from 'mongodb';
-import { AccountCollection } from '../../../models/AccountCollection';
+import DiscordProvider from 'next-auth/providers/discord';
+import { MongoDBAdapter } from '@next-auth/mongodb-adapter';
+import { NextAuthDBConn } from '@degen/schema';
 
 // For more information on each option (and a full list of options) go to
 // https://next-auth.js.org/configuration/options
 export default NextAuth({
 	// https://next-auth.js.org/configuration/providers
 	providers: [
-		Providers.Discord({
+		DiscordProvider({
 			clientId: apiKeys.discordClientId,
 			clientSecret: apiKeys.discordClientSecret,
-			scope: 'identify',
-			profileUrl: 'https://discord.com/api/users/@me',
 		}),
 	],
-
-	database: constants.MONGODB_URI_PARTIAL + constants.DB_NAME_NEXTAUTH + constants.MONGODB_OPTIONS,
+	
+	adapter: MongoDBAdapter(NextAuthDBConn.getClient().connect()),
 
 	// The secret should be set to a reasonably long random string.
 	// It is used to sign cookies and to sign and encrypt JSON Web Tokens, unless
 	// a separate secret is defined explicitly for encrypting the JWT.
 	secret: constants.SECRET_KEY,
-
+	
 	session: {
-		// Use JSON Web Tokens for session instead of database sessions.
-		// This option can be used with or without a database for users/accounts.
-		// Note: `jwt` is automatically set to `true` if no database is specified.
-		jwt: false,
-
+		// Choose how you want to save the user session.
+		// The default is `"jwt"`, an encrypted JWT (JWE) stored in the session cookie.
+		// If you use an `adapter` however, we default it to `"database"` instead.
+		// You can still force a JWT session by explicitly defining `"jwt"`.
+		// When using `"database"`, the session cookie will only contain a `sessionToken` value,
+		// which is used to look up the session in the database.
+		strategy: 'database',
+		
 		// Seconds - How long until an idle session expires and is no longer valid.
 		// 30 days
 		maxAge: 30 * 24 * 60 * 60,
-
+		
 		// Seconds - Throttle how frequently to write to database to extend a session.
 		// Use it to limit write operations. Set to 0 to always update the database.
 		// Note: This option is ignored if using JSON Web Tokens
@@ -47,14 +47,12 @@ export default NextAuth({
 	// option is set - or by default if no database is specified.
 	// https://next-auth.js.org/configuration/options#jwt
 	jwt: {
-		// A secret to use for key generation (you should set this explicitly)
-		// secret: 'INp8IvdIyeMcoGAgFGoA61DdBglwwSqnXJZkgz8PSnw',
-		// Set to true to use encryption (default: false)
-		// encryption: true,
+		// The maximum age of the NextAuth.js issued JWT in seconds.
+		// Defaults to `session.maxAge`.
+		// maxAge: 60 * 60 * 24 * 30,
 		// You can define your own encode/decode functions for signing and encryption
-		// if you want to override the default behaviour.
-		// encode: async ({ secret, token, maxAge }) => {},
-		// decode: async ({ secret, token, maxAge }) => {},
+		// async encode() {},
+		// async decode() {},
 	},
 
 	// You can define custom pages to override the built-in ones. These will be regular Next.js pages
@@ -83,28 +81,28 @@ export default NextAuth({
 	// 	async redirect(url: string, baseUrl: string) {
 	// 		return baseUrl + '/verification/twitter';
 	// 	},
-		async session(session: Session, user: User) {
-			session.user.id = user.id;
-			const db: Db = await MongoDBUtils.connectDb(constants.DB_NAME_NEXTAUTH);
-			const accountCollection: Collection = db.collection(constants.DB_COLLECTION_NEXT_AUTH_ACCOUNTS);
-			
-			const accountsCollection: Cursor<AccountCollection> = await accountCollection.find({
-				userId: ObjectId(session.user.id),
-			});
-			
-			session.isDiscordLinked = false;
-			await accountsCollection.forEach(account => {
-				if (account.providerId == 'discord') {
-					session.isDiscordLinked = true;
-				}
-				if (account.providerId == 'twitter') {
-					session.isTwitterLinked = true;
-					session.twitterAccessToken = account.accessToken;
-					session.twitterAccessSecret = account.accessSecret;
-				}
-			});
-			return session;
-		},
+	// 	async session(session: Session, user: User) {
+	// 		session.user.id = user.id;
+	// 		const db: Db = await MongoDBUtils.connectDb(constants.DB_NAME_NEXTAUTH);
+	// 		const accountCollection: Collection = db.collection(constants.DB_COLLECTION_NEXT_AUTH_ACCOUNTS);
+	//
+	// 		const accountsCollection: Cursor<AccountCollection> = await accountCollection.find({
+	// 			userId: ObjectId(session.user.id),
+	// 		});
+	//
+	// 		session.isDiscordLinked = false;
+	// 		await accountsCollection.forEach(account => {
+	// 			if (account.providerId == 'discord') {
+	// 				session.isDiscordLinked = true;
+	// 			}
+	// 			if (account.providerId == 'twitter') {
+	// 				session.isTwitterLinked = true;
+	// 				session.twitterAccessToken = account.accessToken;
+	// 				session.twitterAccessSecret = account.accessSecret;
+	// 			}
+	// 		});
+	// 		return session;
+	// 	},
 
 		// async jwt(token: JWT, user: User | undefined, account: Account | undefined, profile: Profile | undefined, isNewUser: boolean | undefined) {
 		// 	// console.log(profile);
@@ -123,8 +121,12 @@ export default NextAuth({
 
 	// You can set the theme to 'light', 'dark' or use 'auto' to default to the
 	// whatever prefers-color-scheme is set to in the browser. Default is 'auto'
-	theme: 'light',
-
+	theme: {
+		colorScheme: 'light', // "auto" | "dark" | "light"
+		brandColor: '', // Hex color code
+		logo: '', // Absolute URL to image
+	},
+	
 	// Enable debug messages in the console if you are having problems
 	debug: false,
 });
